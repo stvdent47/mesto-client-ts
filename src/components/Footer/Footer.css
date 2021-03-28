@@ -1,0 +1,37 @@
+.footer {
+  max-width: 882px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 0 60px;
+}
+
+.footer__copyright {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  color: #545454;
+  margin: 0;
+}
+
+@media all and (max-width: 900px) {
+  .footer {
+    max-width: calc(100% - 54px);
+    padding: 0 27px 60px;
+  }
+}
+
+@media all and (max-width: 650px) {
+  .footer {
+    max-width: calc(100% - 38px);
+    padding: 0 19px 60px;
+    margin: 0;
+  }
+}
+
+@media all and (max-width: 320px) {
+  .footer__copyright {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}

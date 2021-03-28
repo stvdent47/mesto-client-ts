@@ -1,0 +1,1 @@
+export const SAVE_BUTTON_TEXT:string = 'Сохранить';
