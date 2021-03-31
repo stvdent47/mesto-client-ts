@@ -1,24 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-import { ICard } from '../interfaces';
+import ICard from '../../interfaces/ICard';
+import ICurrentUser from '../../interfaces/ICurrentUser';
 import Main from '../Main/Main';
 import ModalEdit from '../ModalEdit/ModalEdit';
 import ModalAdd from '../ModalAdd/ModalAdd';
 import ModalAvatarUpdate from '../ModalAvatarUpdate/ModalAvatarUpdate';
 import ModalWithImage from '../ModalWithImage/ModalWithImage';
 import getCards from '../../lib/requests/getCards';
+import getCurrentUserInfo from '../../lib/requests/getCurrentUserInfo';
 
 const tempToken: string =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGJkYjFiMGUyZTEzNDQyOGE2MGUwYSIsImlhdCI6MTYxNjk2OTQ2OSwiZXhwIjoxNjE3NTc0MjY5fQ.7dJ3JwyUMRXb113tLRsidnCN-YKa_Pwesh0Jx15Lydc';
 // import './App.css';
+
+const emptyUser = {
+  name: '',
+  about: '',
+  email: '',
+  avatar: '',
+  _id: '',
+}
+
+const emptyCard = {
+  name: '',
+  link: '',
+  owner: '',
+  likes: [],
+  createdAt: '',
+  _id: '',
+};
+
 const App: React.FC = () => {
+  const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
   // modal states
   const [isModalEditOpen, setIsModalEditOpen] = useState<boolean>(false);
   const [isModalAddOpen, setIsModalAddOpen] = useState<boolean>(false);
   const [isModalAvatarUpdateOpen, setIsModalAvatarUpdateOpen] = useState<boolean>(false);
+  const [isModalWithImageOpen, setIsModalWithImageOpen] = useState<boolean>(false);
 
   const [cards, setCards] = useState<ICard[]>([]);
+  const [selectedCard, setSelectedCard] = useState<ICard>(emptyCard);
 
   const handleEditProfileClick = (): void => {
     setIsModalEditOpen(true);
@@ -26,15 +49,24 @@ const App: React.FC = () => {
   const handleEditAvatarClick = (): void => {
     setIsModalAvatarUpdateOpen(true);
   };
-
+  // JSON.parse(localStorage.getItem('test') || '[]') as string;
   const handleAddPlaceClick = (): void => {
     setIsModalAddOpen(true);
+  };
+  const handleCardClick = (card: ICard): void => {
+    setIsModalWithImageOpen(true);
+    setSelectedCard(card);
+  };
+  const handleModalWithImageClose = (): void => {
+    setIsModalWithImageOpen(false);
+    setSelectedCard(emptyCard);
   };
 
   const closeAllModals = (): void => {
     setIsModalEditOpen(false);
     setIsModalAddOpen(false);
     setIsModalAvatarUpdateOpen(false);
+    handleModalWithImageClose();
   };
 
   // const closeModalByEscape = (evt: React.KeyboardEvent): void => {
@@ -42,19 +74,26 @@ const App: React.FC = () => {
   // };
 
   // useEffect(() => {
-  //   this.addEventListener('keydown', closeModalByEscape);
+  //   document.addEventListener('keydown', closeModalByEscape);
   //   return () => {
   //     document.removeEventListener('keydown', closeModalByEscape);
   //   };
   // }, []);
   useEffect(() => {
     getCards(tempToken)
-      .then((res) => {
-        setCards(res);
+      .then((cards) => {
+        setCards(cards);
       })
       .catch((err) => console.error(err));
+
+    getCurrentUserInfo(tempToken)
+      .then((user) => setCurrentUser(user))
+      .catch((err) => console.error(err));
   }, []);
-  useEffect(() => {console.log(cards)}, [cards])
+
+  useEffect(() => {
+    console.log(cards);
+  }, [cards]);
   return (
     <div className='page'>
       <Header />
@@ -63,13 +102,15 @@ const App: React.FC = () => {
         onAvatarEdit={handleEditAvatarClick}
         onAddPlace={handleAddPlaceClick}
         cards={cards}
+        currentUser={currentUser}
+        onCardClick={handleCardClick}
       />
       <Footer />
 
       <ModalEdit isOpen={isModalEditOpen} onClose={closeAllModals} />
       <ModalAdd isOpen={isModalAddOpen} onClose={closeAllModals} />
       <ModalAvatarUpdate isOpen={isModalAvatarUpdateOpen} onClose={closeAllModals} />
-      <ModalWithImage />
+      <ModalWithImage isOpen={isModalWithImageOpen} card={selectedCard} onClose={closeAllModals} />
 
       {/* <div className='modal remove-card-modal'>
         <div className='modal__container'>

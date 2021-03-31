@@ -1,4 +1,4 @@
-export interface ICard {
+export default interface ICard {
   name: string;
   link: string;
   owner: string;

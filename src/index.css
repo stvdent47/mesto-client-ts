@@ -1,7 +1,3 @@
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/inter.css);
 @import url(./blocks/root/root.css);
-
-
-@import url(./blocks/pic-modal/pic-modal.css);
-@import url(./blocks/pic-modal/_opened/pic-modal_opened.css);
