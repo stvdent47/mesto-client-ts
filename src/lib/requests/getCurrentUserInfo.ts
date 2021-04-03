@@ -1,6 +1,6 @@
 import env from 'react-dotenv';
 import checkErrors from '../checkErrors';
-import ICurrentUser from '../../interfaces/ICurrentUser';
+import { ICurrentUser } from '../../interfaces/ICurrentUser';
 
 const { API_URL } = env;
 

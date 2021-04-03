@@ -1,6 +1,6 @@
 import React from 'react';
 import './ModalWithImage.css';
-import ICard from '../../interfaces/ICard';
+import { ICard } from '../../interfaces/ICard';
 
 interface ModalWithImageProps {
   isOpen: boolean;
@@ -17,7 +17,7 @@ export const ModalWithImage: React.FC<ModalWithImageProps> = ({ isOpen, card, on
           <figcaption className='pic-modal__caption'>{card.name}</figcaption>
         </figure>
 
-        <button className='pic-modal__close-button' type='button' aria-label='Закрыть' onClick={onClose}/>
+        <button className='pic-modal__close-button' type='button' aria-label='Закрыть' onClick={onClose} />
       </div>
     </div>
   );

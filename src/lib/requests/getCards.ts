@@ -1,5 +1,5 @@
-import env from "react-dotenv";
-import ICard from "../../interfaces/ICard";
+import env from 'react-dotenv';
+import { ICard } from '../../interfaces/ICard';
 import checkErrors from '../checkErrors';
 
 const { API_URL } = env;
@@ -14,6 +14,6 @@ const getCards = (token: string): Promise<ICard[]> => {
       'Content-Type': 'application/json',
     },
   }).then(checkErrors);
-}
+};
 
 export default getCards;

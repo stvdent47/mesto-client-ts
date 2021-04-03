@@ -1,4 +1,4 @@
-export default interface ICard {
+export interface ICard {
   name: string;
   link: string;
   owner: string;
@@ -6,3 +6,12 @@ export default interface ICard {
   createdAt: string;
   _id: string;
 }
+
+export const emptyCard: ICard = {
+  name: '',
+  link: '',
+  owner: '',
+  likes: [],
+  createdAt: '',
+  _id: '',
+};
