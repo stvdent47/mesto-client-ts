@@ -8,15 +8,30 @@ interface ModalWithFormProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  // onSubmit(test: string): void;
+  onSubmit: (evt: React.FormEvent) => void;
 }
 
-const ModalWithForm: React.FC<ModalWithFormProps> = ({ name, title, submitButtonText, isOpen, onClose, children }) => {
+const ModalWithForm: React.FC<ModalWithFormProps> = ({
+  name,
+  title,
+  submitButtonText,
+  isOpen,
+  onClose,
+  onSubmit,
+  children,
+}) => {
   return (
     <div className={`modal ${name}-modal ${isOpen ? 'modal_opened' : ''}`}>
       <div className='modal__container'>
         <h2 className='modal__title'>{title}</h2>
-        <form action='#' name={`form-${name}-modal`} className='modal__form' method='POST' noValidate>
+        <form
+          action='#'
+          onSubmit={onSubmit}
+          name={`form-${name}-modal`}
+          className='modal__form'
+          method='POST'
+          noValidate
+        >
           {children}
           <button type='submit' className='modal__button'>
             {submitButtonText}

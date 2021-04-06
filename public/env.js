@@ -7,7 +7,7 @@ window.env = {
   "npm_config_only": "",
   "npm_config_commit_hooks": "true",
   "npm_config_browser": "",
-  "npm_package_gitHead": "4b46bf7a4b29f7037f39e01a2ee549b71000a261",
+  "npm_package_gitHead": "fd5234a81f427ee01de809d9a9ac33be7ef463ea",
   "npm_config_also": "",
   "npm_config_sign_git_commit": "",
   "npm_config_rollback": "true",
@@ -63,7 +63,7 @@ window.env = {
   "npm_config_logs_max": "10",
   "npm_config_always_auth": "",
   "npm_package_browserslist_development_0": "last 1 chrome version",
-  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.yz3npHMakG/Listeners",
+  "SSH_AUTH_SOCK": "/private/tmp/com.apple.launchd.pqLpWpLpUW/Listeners",
   "npm_package_browserslist_development_2": "last 1 safari version",
   "__CF_USER_TEXT_ENCODING": "0x1F5:0x7:0x31",
   "npm_execpath": "/Users/stvdent47/.nvm/versions/node/v12.20.2/lib/node_modules/npm/bin/npm-cli.js",
@@ -191,5 +191,6 @@ window.env = {
   "npm_config_link": "",
   "npm_config_format_package_lock": "true",
   "COLORTERM": "truecolor",
-  "API_URL": "http://localhost:3000"
+  "API_URL": "http://localhost:3000",
+  "TEMP_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGJkYjFiMGUyZTEzNDQyOGE2MGUwYSIsImlhdCI6MTYxNzU3ODM0NiwiZXhwIjoxNjE4MTgzMTQ2fQ.Sw_l1gpd5iHLbWaeb3Dyd8-OEa4XrfwBROo7QLa0CCo"
 };

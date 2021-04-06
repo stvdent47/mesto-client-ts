@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import env from 'react-dotenv';
 import './Main.css';
 // components
 import { Card } from '../Card/Card';
@@ -14,8 +15,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import defaultAvatar from '../../images/profile-photo.jpg';
 
-const tempToken: string =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGJkYjFiMGUyZTEzNDQyOGE2MGUwYSIsImlhdCI6MTYxNjk2OTQ2OSwiZXhwIjoxNjE3NTc0MjY5fQ.7dJ3JwyUMRXb113tLRsidnCN-YKa_Pwesh0Jx15Lydc';
+const { TEMP_TOKEN } = env;
 
 interface MainProps {
   onProfileEdit: () => void;
@@ -41,7 +41,7 @@ const Main: React.FC<MainProps> = ({ onProfileEdit, onAvatarEdit, onAddPlace, on
   };
 
   useEffect(() => {
-    getCards(tempToken)
+    getCards(TEMP_TOKEN)
       .then((cards) => {
         setCards(cards);
       })
@@ -70,7 +70,13 @@ const Main: React.FC<MainProps> = ({ onProfileEdit, onAvatarEdit, onAddPlace, on
       <section className='photo-elements'>
         <ul className='photo-elements__list'>
           {cards.map((card) => (
-            <Card card={card} onCardClick={onCardClick} onLikeClick={handleCardLike} onCardDelete={handleDeleteCard} />
+            <Card
+              card={card}
+              key={card._id}
+              onCardClick={onCardClick}
+              onLikeClick={handleCardLike}
+              onCardDelete={handleDeleteCard}
+            />
           ))}
         </ul>
       </section>

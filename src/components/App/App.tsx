@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import env from 'react-dotenv';
 // components
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
@@ -12,11 +13,11 @@ import { ICurrentUser, emptyUser } from '../../interfaces/ICurrentUser';
 import { ICard, emptyCard } from '../../interfaces/ICard';
 // requests
 import getCurrentUserInfo from '../../lib/requests/getCurrentUserInfo';
+import updateUser from '../../lib/requests/updateUser';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-const tempToken: string =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGJkYjFiMGUyZTEzNDQyOGE2MGUwYSIsImlhdCI6MTYxNjk2OTQ2OSwiZXhwIjoxNjE3NTc0MjY5fQ.7dJ3JwyUMRXb113tLRsidnCN-YKa_Pwesh0Jx15Lydc';
+const { TEMP_TOKEN } = env;
 // import './App.css';
 
 const App: React.FC = () => {
@@ -55,18 +56,32 @@ const App: React.FC = () => {
     handleModalWithImageClose();
   };
 
-  // const closeModalByEscape = (evt: React.KeyboardEvent): void => {
-  //   evt.key === 'Escape' && closeAllModals();
-  // };
+  const handleUpdateUser = (name: string, about: string): void => {
+    updateUser(name, about)
+      .then((user) => {
+        const { name, about } = user;
+        setCurrentUser((prevState) => ({ ...prevState, name, about }));
+        closeAllModals();
+      })
+      .catch((err) => console.error(err));
+  };
 
-  // useEffect(() => {
-  //   document.addEventListener('keydown', closeModalByEscape);
-  //   return () => {
-  //     document.removeEventListener('keydown', closeModalByEscape);
-  //   };
-  // }, []);
+  const handleUpdateAvatar = (): void => {};
+
+  const handleAddPlaceSubmit = (): void => {};
+
+  const closeModalByEscape = (evt: KeyboardEvent): void => {
+    evt.key === 'Escape' && closeAllModals();
+  };
   useEffect(() => {
-    getCurrentUserInfo(tempToken)
+    document.addEventListener('keydown', closeModalByEscape);
+    return () => {
+      document.removeEventListener('keydown', closeModalByEscape);
+    };
+  }, []);
+
+  useEffect(() => {
+    getCurrentUserInfo(TEMP_TOKEN)
       .then((user) => setCurrentUser(user))
       .catch((err) => console.error(err));
   }, []);
@@ -86,9 +101,13 @@ const App: React.FC = () => {
         />
         <Footer />
 
-        <ModalEdit isOpen={isModalEditOpen} onClose={closeAllModals} />
-        <ModalAdd isOpen={isModalAddOpen} onClose={closeAllModals} />
-        <ModalAvatarUpdate isOpen={isModalAvatarUpdateOpen} onClose={closeAllModals} />
+        <ModalEdit isOpen={isModalEditOpen} onClose={closeAllModals} onUpdateUser={handleUpdateUser} />
+        <ModalAdd isOpen={isModalAddOpen} onClose={closeAllModals} onAddPlace={handleAddPlaceSubmit} />
+        <ModalAvatarUpdate
+          isOpen={isModalAvatarUpdateOpen}
+          onClose={closeAllModals}
+          onAvatarUpdate={handleUpdateAvatar}
+        />
         <ModalWithImage isOpen={isModalWithImageOpen} card={selectedCard} onClose={closeAllModals} />
 
         {/* <div className='modal remove-card-modal'>

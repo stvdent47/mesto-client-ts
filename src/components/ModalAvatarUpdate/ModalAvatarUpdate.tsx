@@ -6,10 +6,18 @@ import { SAVE_BUTTON_TEXT } from '../../utils/constants';
 interface ModalAvatarUpdateProps {
   isOpen: boolean;
   onClose: () => void;
+  onAvatarUpdate: () => void;
 }
-const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({ isOpen, onClose }) => {
+const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({ isOpen, onClose, onAvatarUpdate }) => {
   return (
-    <ModalWithForm name='avatar-update' title='Обновить аватар' submitButtonText={SAVE_BUTTON_TEXT} isOpen={isOpen} onClose={onClose}>
+    <ModalWithForm
+      name='avatar-update'
+      title='Обновить аватар'
+      submitButtonText={SAVE_BUTTON_TEXT}
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={onAvatarUpdate}
+    >
       <input
         type='url'
         name='avatar-link'

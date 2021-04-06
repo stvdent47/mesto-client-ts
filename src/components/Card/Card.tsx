@@ -20,14 +20,14 @@ export const Card: React.FC<CardProps> = ({ card, onCardClick, onLikeClick, onCa
   const isMyCard: boolean = Boolean(owner === currentUser._id);
   const isLiked: boolean = Boolean(likes.find((id) => id === currentUser._id));
 
-  const handleCardClick = () => {
+  const handleCardClick = (): void => {
     onCardClick(card);
   };
-  const handleCardLike = () => {
+  const handleCardLike = (): void => {
     onLikeClick(cardId, isLiked);
   };
 
-  const handleCardDelete = () => {
+  const handleCardDelete = (): void => {
     onCardDelete(card._id);
   };
 

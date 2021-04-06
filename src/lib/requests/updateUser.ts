@@ -1,23 +1,26 @@
 import env from "react-dotenv";
 import checkErrors from '../checkErrors';
 
-const { API_URL } = env;
+const { API_URL, TEMP_TOKEN } = env;
 
-export interface IupdateUser {
+interface IUpdateUser {
   name: string;
   about: string;
 }
-// editing user profile info on the server
-export const updateUser = (info: IupdateUser) => {
+
+const updateUser = (name: string, about: string): Promise<IUpdateUser> => {
   return fetch(`${API_URL}/users/me`, {
     method: 'PATCH',
     headers: {
-      authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${TEMP_TOKEN}`,
+      // authorization: `Bearer ${localStorage.getItem('jwt')}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      name: info.name,
-      about: info.about,
+      name,
+      about,
     }),
   }).then(checkErrors);
 }
+
+export default updateUser;

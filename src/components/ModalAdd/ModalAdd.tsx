@@ -5,11 +5,19 @@ import { SAVE_BUTTON_TEXT } from '../../utils/constants';
 interface ModalAddProps {
   isOpen: boolean;
   onClose: () => void;
+  onAddPlace: () => void;
 }
 
-const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose }) => {
+const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }) => {
   return (
-    <ModalWithForm name='add' title='Новое место' submitButtonText={SAVE_BUTTON_TEXT} isOpen={isOpen} onClose={onClose}>
+    <ModalWithForm
+      name='add'
+      title='Новое место'
+      submitButtonText={SAVE_BUTTON_TEXT}
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={onAddPlace}
+    >
       <input
         type='text'
         name='place-name'
