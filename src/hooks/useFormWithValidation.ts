@@ -5,8 +5,8 @@ interface ITextInputState {
 }
 
 interface IUseForm {
-  values: ITextInputState,
-  errors: ITextInputState,
+  values: ITextInputState;
+  errors: ITextInputState;
   isFormValid: boolean;
   handleChange: () => void;
 }
@@ -24,15 +24,13 @@ const useFormWithValidation = () => {
     setErrors((prevState) => ({ ...prevState, [name]: target.validationMessage }));
   };
 
-  // const resetForm = useCallback(
-  //   (newValues = {}, newErrors = {}, newIsFormValid = false) => {
-  //     setValues(newValues);
-  //     setErrors(newErrors);
-  //     setisFormValid(newIsFormValid);
-  //   }
-  // );
+  const resetForm = useCallback((newValues = {}, newErrors = {}, newIsFormValid = false) => {
+    setValues(newValues);
+    setErrors(newErrors);
+    setIsFormValid(newIsFormValid);
+  }, []);
 
-  return { values, setValues, errors, isFormValid, handleChange };
+  return { values, setValues, errors, isFormValid, handleChange, resetForm };
 };
 
 export default useFormWithValidation;

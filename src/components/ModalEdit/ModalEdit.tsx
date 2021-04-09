@@ -22,7 +22,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
     evt.preventDefault();
 
     onUpdateUser(values.profileName, values.profileAbout);
-  }
+  };
 
   useEffect(() => {
     setValues({
@@ -30,9 +30,6 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
       profileAbout: currentUser.about,
     });
   }, [currentUser, isOpen]);
-  // const changeHandler = (evt: React.ChangeEvent<HTMLInputElement>) => {
-  //   console.log(evt.target.value);
-  // };
 
   return (
     <ModalWithForm
@@ -56,7 +53,12 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
         value={values.profileName || ''}
         onChange={handleChange}
       />
-      <p className='modal__input-error-message' id='profile-name-error'></p>
+      <p
+        className={`modal__input-error-message ${errors.profileName ? 'modal__input-error-message_visible' : ''}`}
+        id='profile-name-error'
+      >
+        {errors.profileName}
+      </p>
 
       <input
         type='text'
@@ -71,7 +73,12 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
         value={values.profileAbout || ''}
         onChange={handleChange}
       />
-      <p className='modal__input-error-message' id='profile-job-error'></p>
+      <p
+        className={`modal__input-error-message ${errors.profileAbout ? 'modal__input-error-message_visible' : ''}`}
+        id='profile-job-error'
+      >
+        {errors.profileAbout}
+      </p>
     </ModalWithForm>
   );
 };

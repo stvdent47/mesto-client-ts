@@ -1,9 +1,10 @@
-import env from "react-dotenv";
+import env from 'react-dotenv';
 import checkErrors from '../checkErrors';
 
 const { API_URL } = env;
+
 // updating profile avatar on the server
-export const updateUserAvatar = (avatarUrl: string) => {
+const updateUserAvatar = (avatarUrl: string): Promise<{ avatar: string }> => {
   return fetch(`${API_URL}/users/me/avatar`, {
     method: 'PATCH',
     headers: {
@@ -14,4 +15,6 @@ export const updateUserAvatar = (avatarUrl: string) => {
       avatarUrl,
     }),
   }).then(checkErrors);
-}
+};
+
+export default updateUserAvatar;

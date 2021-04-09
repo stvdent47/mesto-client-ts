@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import env from 'react-dotenv';
+import React, { useState, useEffect } from 'react';
+import './App.css';
+// import { createUseStyles } from 'react-jss';
 // components
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
@@ -14,11 +16,20 @@ import { ICard, emptyCard } from '../../interfaces/ICard';
 // requests
 import getCurrentUserInfo from '../../lib/requests/getCurrentUserInfo';
 import updateUser from '../../lib/requests/updateUser';
+import updateUserAvatar from '../../lib/requests/updateUserAvatar';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 const { TEMP_TOKEN } = env;
-// import './App.css';
+// const useStyles = createUseStyles<any>({
+//   page: {
+//     maxWidth: '1200px';
+//     min-width: 320px;
+//     width: 100%;
+//     margin: 0 auto;
+//     font-family: 'Inter', 'Arial', sans-serif;
+//   }
+// })
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
@@ -66,7 +77,15 @@ const App: React.FC = () => {
       .catch((err) => console.error(err));
   };
 
-  const handleUpdateAvatar = (): void => {};
+  const handleUpdateAvatar = (avatarUrl: string, resetFormCb: () => void): void => {
+    updateUserAvatar(avatarUrl)
+      .then((res) => {
+        setCurrentUser((prevState) => ({ ...prevState, avatar: res.avatar }));
+        closeAllModals();
+        resetFormCb();
+      })
+      .catch((err) => console.error(err));
+  };
 
   const handleAddPlaceSubmit = (): void => {};
 

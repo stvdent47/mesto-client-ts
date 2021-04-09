@@ -1,3 +1,7 @@
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/inter.css);
 @import url(./blocks/root/root.css);
+
+#root {
+  background-color: #000;
+}
