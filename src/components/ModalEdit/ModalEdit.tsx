@@ -16,13 +16,19 @@ interface ModalEditProps {
 const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) => {
   const currentUser = useContext(CurrentUserContext);
 
-  const { values, setValues, errors, handleChange } = useFormWithValidation();
+  const { values, setValues, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent): void => {
     evt.preventDefault();
 
-    onUpdateUser(values.profileName, values.profileAbout);
+    const { profileName, profileAbout } = values;
+
+    onUpdateUser(profileName, profileAbout);
   };
+
+  useEffect(() => {
+    resetForm();
+  }, [isOpen]);
 
   useEffect(() => {
     setValues({
@@ -39,6 +45,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isFormValid={isFormValid}
     >
       <input
         type='text'

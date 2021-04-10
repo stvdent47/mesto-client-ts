@@ -17,6 +17,10 @@ import { ICard, emptyCard } from '../../interfaces/ICard';
 import getCurrentUserInfo from '../../lib/requests/getCurrentUserInfo';
 import updateUser from '../../lib/requests/updateUser';
 import updateUserAvatar from '../../lib/requests/updateUserAvatar';
+import createCard from '../../lib/requests/createCard';
+import getCards from '../../lib/requests/getCards';
+import handleLikeClick from '../../lib/requests/handleLikeClick';
+import deleteCard from '../../lib/requests/deleteCard';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
@@ -33,6 +37,7 @@ const { TEMP_TOKEN } = env;
 
 const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
+  const [cards, setCards] = useState<ICard[]>([]);
   // modal states
   const [isModalEditOpen, setIsModalEditOpen] = useState<boolean>(false);
   const [isModalAddOpen, setIsModalAddOpen] = useState<boolean>(false);
@@ -87,7 +92,27 @@ const App: React.FC = () => {
       .catch((err) => console.error(err));
   };
 
-  const handleAddPlaceSubmit = (): void => {};
+  const handleAddPlaceSubmit = (name: string, link: string, resetFormCb: () => void): void => {
+    createCard(name, link)
+      .then((res) => {
+        setCards((prevState) => [res, ...prevState]);
+        resetFormCb();
+        closeAllModals();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const handleCardLike = (cardId: string, isLiked: boolean): void => {
+    handleLikeClick(cardId, isLiked)
+      .then((newCard) => setCards((prevState) => prevState.map((card) => (card._id === cardId ? newCard : card))))
+      .catch((err) => console.error(err));
+  };
+
+  const handleDeleteCard = (cardId: string): void => {
+    deleteCard(cardId)
+      .then((card) => setCards((prevState) => prevState.filter((item) => item._id !== card._id)))
+      .catch((err) => console.error(err));
+  };
 
   const closeModalByEscape = (evt: KeyboardEvent): void => {
     evt.key === 'Escape' && closeAllModals();
@@ -105,6 +130,14 @@ const App: React.FC = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    getCards(TEMP_TOKEN)
+      .then((cards) => {
+        setCards(cards.reverse());
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
   // useEffect(() => {
   //   console.log(cards);
   // }, [cards]);
@@ -113,10 +146,13 @@ const App: React.FC = () => {
       <div className='page'>
         <Header />
         <Main
+          cards={cards}
           onProfileEdit={handleEditProfileClick}
           onAvatarEdit={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleDeleteCard}
         />
         <Footer />
 

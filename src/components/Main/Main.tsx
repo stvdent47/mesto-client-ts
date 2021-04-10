@@ -1,52 +1,35 @@
 import env from 'react-dotenv';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import './Main.css';
 // components
 import { Card } from '../Card/Card';
 // interfaces
 import { ICurrentUser } from '../../interfaces/ICurrentUser';
 import { ICard } from '../../interfaces/ICard';
-// requests
-import getCards from '../../lib/requests/getCards';
-import handleLikeClick from '../../lib/requests/handleLikeClick';
-import deleteCard from '../../lib/requests/deleteCard';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-
 import defaultAvatar from '../../images/profile-photo.jpg';
 
-const { TEMP_TOKEN } = env;
-
 interface MainProps {
+  cards: ICard[];
   onProfileEdit: () => void;
   onAvatarEdit: () => void;
   onAddPlace: () => void;
   onCardClick: (card: ICard) => void;
+  onCardLike: (cardId: string, isLiked: boolean) => void;
+  onCardDelete: (cardId: string) => void;
 }
 
-const Main: React.FC<MainProps> = ({ onProfileEdit, onAvatarEdit, onAddPlace, onCardClick }) => {
+const Main: React.FC<MainProps> = ({
+  cards,
+  onProfileEdit,
+  onAvatarEdit,
+  onAddPlace,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}) => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
-  const [cards, setCards] = useState<ICard[]>([]);
-
-  const handleCardLike = (cardId: string, isLiked: boolean): void => {
-    handleLikeClick(cardId, isLiked)
-      .then((newCard) => setCards((prevState) => prevState.map((card) => (card._id === cardId ? newCard : card))))
-      .catch((err) => console.error(err));
-  };
-
-  const handleDeleteCard = (cardId: string): void => {
-    deleteCard(cardId)
-      .then((card) => setCards((prevState) => prevState.filter((item) => item._id !== card._id)))
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    getCards(TEMP_TOKEN)
-      .then((cards) => {
-        setCards(cards);
-      })
-      .catch((err) => console.error(err));
-  }, []);
 
   return (
     <main className='main'>
@@ -74,8 +57,8 @@ const Main: React.FC<MainProps> = ({ onProfileEdit, onAvatarEdit, onAddPlace, on
               card={card}
               key={card._id}
               onCardClick={onCardClick}
-              onLikeClick={handleCardLike}
-              onCardDelete={handleDeleteCard}
+              onCardLike={onCardLike}
+              onCardDelete={onCardDelete}
             />
           ))}
         </ul>

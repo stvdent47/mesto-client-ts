@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // components
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
 // hooks
@@ -12,13 +12,17 @@ interface ModalAvatarUpdateProps {
   onAvatarUpdate: (avatarUrl: string, resetForm: () => void) => void;
 }
 const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({ isOpen, onClose, onAvatarUpdate }) => {
-  const { values, setValues, errors, handleChange, resetForm } = useFormWithValidation();
+  const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
 
     onAvatarUpdate(values.avatarUrl, resetForm);
   };
+
+  useEffect(() => {
+    resetForm();
+  }, [isOpen]);
 
   return (
     <ModalWithForm
@@ -28,6 +32,7 @@ const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({ isOpen, onClose, 
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isFormValid={isFormValid}
     >
       <input
         type='url'

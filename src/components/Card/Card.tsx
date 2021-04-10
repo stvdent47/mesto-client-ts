@@ -8,11 +8,11 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 interface CardProps {
   card: ICard;
   onCardClick: (card: ICard) => void;
-  onLikeClick: (cardId: string, isLiked: boolean) => void;
+  onCardLike: (cardId: string, isLiked: boolean) => void;
   onCardDelete: (cardId: string) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ card, onCardClick, onLikeClick, onCardDelete }) => {
+export const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCardDelete }) => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
   // console.log(card);
   const { name, link, likes, owner, _id: cardId } = card;
@@ -24,7 +24,7 @@ export const Card: React.FC<CardProps> = ({ card, onCardClick, onLikeClick, onCa
     onCardClick(card);
   };
   const handleCardLike = (): void => {
-    onLikeClick(cardId, isLiked);
+    onCardLike(cardId, isLiked);
   };
 
   const handleCardDelete = (): void => {

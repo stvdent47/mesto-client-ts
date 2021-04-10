@@ -9,6 +9,7 @@ interface ModalWithFormProps {
   onClose: () => void;
   children: React.ReactNode;
   onSubmit: (evt: React.FormEvent) => void;
+  isFormValid: boolean;
 }
 
 const ModalWithForm: React.FC<ModalWithFormProps> = ({
@@ -18,6 +19,7 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  isFormValid,
   children,
 }) => {
   return (
@@ -33,7 +35,7 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
           noValidate
         >
           {children}
-          <button type='submit' className='modal__button'>
+          <button type='submit' className={`modal__button ${!isFormValid ? 'modal__button_disabled' : ''}`}>
             {submitButtonText}
           </button>
         </form>
