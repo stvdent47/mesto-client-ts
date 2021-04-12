@@ -6,7 +6,7 @@ const loginStyles = {
     width: '100%',
     display: 'flex',
     flexDirection: 'column',
-    margin: { left: 'auto', right: 'auto' },
+    margin: { left: 'auto', bottom: 250, right: 'auto' },
     padding: { top: '60px' },
     color: '#fff',
   },
@@ -32,6 +32,10 @@ const loginStyles = {
     '&::placeholder': {
       color: '#ccc',
     },
+  },
+  login__inputError: {
+    color: 'red',
+    margin: 0,
   },
   login__button: {
     backgroundColor: '#fff',

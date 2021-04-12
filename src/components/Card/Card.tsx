@@ -65,4 +65,4 @@ const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCardDelete
   );
 };
 
-export default Card;
+export default React.memo(Card);

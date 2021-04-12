@@ -11,6 +11,7 @@ import ModalEdit from '../ModalEdit/ModalEdit';
 import ModalAdd from '../ModalAdd/ModalAdd';
 import ModalAvatarUpdate from '../ModalAvatarUpdate/ModalAvatarUpdate';
 import ModalWithImage from '../ModalWithImage/ModalWithImage';
+import ProtectedRoute from '../../hocs/ProtectedRoute';
 // interfaces
 import { ICurrentUser, emptyUser } from '../../interfaces/ICurrentUser';
 import { ICard, emptyCard } from '../../interfaces/ICard';
@@ -42,6 +43,7 @@ const App: React.FC = () => {
   const classes = useStyles();
 
   const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [cards, setCards] = useState<ICard[]>([]);
   // modal states
   const [isModalEditOpen, setIsModalEditOpen] = useState<boolean>(false);
@@ -153,13 +155,25 @@ const App: React.FC = () => {
       <div className={classes.page}>
         <Header />
         <Switch>
-          <Route path="/sign-in">
+          <Route exact path='/sign-in'>
             <Login />
           </Route>
-          <Route path="/sign-up">
+          <Route exact path='/sign-up'>
             <Register />
           </Route>
-          <Route path="/feed">
+          <ProtectedRoute
+            path='/feed'
+            component={Main}
+            isLoggedIn={isLoggedIn}
+            cards={cards}
+            onProfileEdit={handleEditProfileClick}
+            onAvatarEdit={handleEditAvatarClick}
+            onAddPlace={handleAddPlaceClick}
+            onCardClick={handleCardClick}
+            onCardLike={handleCardLike}
+            onCardDelete={handleDeleteCard}
+          />
+          {/* <Route path='/feed'>
             <Main
               cards={cards}
               onProfileEdit={handleEditProfileClick}
@@ -169,7 +183,7 @@ const App: React.FC = () => {
               onCardLike={handleCardLike}
               onCardDelete={handleDeleteCard}
             />
-          </Route>
+          </Route> */}
         </Switch>
         <Footer />
 
