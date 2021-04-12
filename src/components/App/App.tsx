@@ -1,10 +1,11 @@
-import env from 'react-dotenv';
 import React, { useState, useEffect } from 'react';
+import env from 'react-dotenv';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
-// import { createUseStyles } from 'react-jss';
+import { createUseStyles } from 'react-jss';
 // components
-import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 import Main from '../Main/Main';
 import ModalEdit from '../ModalEdit/ModalEdit';
 import ModalAdd from '../ModalAdd/ModalAdd';
@@ -23,19 +24,23 @@ import handleLikeClick from '../../lib/requests/handleLikeClick';
 import deleteCard from '../../lib/requests/deleteCard';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
 
 const { TEMP_TOKEN } = env;
-// const useStyles = createUseStyles<any>({
-//   page: {
-//     maxWidth: '1200px';
-//     min-width: 320px;
-//     width: 100%;
-//     margin: 0 auto;
-//     font-family: 'Inter', 'Arial', sans-serif;
-//   }
-// })
+const useStyles = createUseStyles({
+  page: {
+    maxWidth: 1200,
+    minWidth: 320,
+    width: '100%',
+    margin: '0 auto',
+    fontFamily: "'Inter', 'Arial', sans-serif",
+  },
+});
 
 const App: React.FC = () => {
+  const classes = useStyles();
+
   const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
   const [cards, setCards] = useState<ICard[]>([]);
   // modal states
@@ -104,7 +109,9 @@ const App: React.FC = () => {
 
   const handleCardLike = (cardId: string, isLiked: boolean): void => {
     handleLikeClick(cardId, isLiked)
-      .then((newCard) => setCards((prevState) => prevState.map((card) => (card._id === cardId ? newCard : card))))
+      .then((newCard) =>
+        setCards((prevState) => prevState.map((card) => (card._id === cardId ? newCard : card)))
+      )
       .catch((err) => console.error(err));
   };
 
@@ -143,27 +150,49 @@ const App: React.FC = () => {
   // }, [cards]);
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className='page'>
+      <div className={classes.page}>
         <Header />
-        <Main
-          cards={cards}
-          onProfileEdit={handleEditProfileClick}
-          onAvatarEdit={handleEditAvatarClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleDeleteCard}
-        />
+        <Switch>
+          <Route path="/sign-in">
+            <Login />
+          </Route>
+          <Route path="/sign-up">
+            <Register />
+          </Route>
+          <Route path="/feed">
+            <Main
+              cards={cards}
+              onProfileEdit={handleEditProfileClick}
+              onAvatarEdit={handleEditAvatarClick}
+              onAddPlace={handleAddPlaceClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleDeleteCard}
+            />
+          </Route>
+        </Switch>
         <Footer />
 
-        <ModalEdit isOpen={isModalEditOpen} onClose={closeAllModals} onUpdateUser={handleUpdateUser} />
-        <ModalAdd isOpen={isModalAddOpen} onClose={closeAllModals} onAddPlace={handleAddPlaceSubmit} />
+        <ModalEdit
+          isOpen={isModalEditOpen}
+          onClose={closeAllModals}
+          onUpdateUser={handleUpdateUser}
+        />
+        <ModalAdd
+          isOpen={isModalAddOpen}
+          onClose={closeAllModals}
+          onAddPlace={handleAddPlaceSubmit}
+        />
         <ModalAvatarUpdate
           isOpen={isModalAvatarUpdateOpen}
           onClose={closeAllModals}
           onAvatarUpdate={handleUpdateAvatar}
         />
-        <ModalWithImage isOpen={isModalWithImageOpen} card={selectedCard} onClose={closeAllModals} />
+        <ModalWithImage
+          isOpen={isModalWithImageOpen}
+          card={selectedCard}
+          onClose={closeAllModals}
+        />
 
         {/* <div className='modal remove-card-modal'>
         <div className='modal__container'>

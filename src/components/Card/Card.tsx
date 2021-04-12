@@ -12,13 +12,13 @@ interface CardProps {
   onCardDelete: (cardId: string) => void;
 }
 
-export const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCardDelete }) => {
+const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCardDelete }: CardProps) => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
   // console.log(card);
   const { name, link, likes, owner, _id: cardId } = card;
 
-  const isMyCard: boolean = Boolean(owner === currentUser._id);
-  const isLiked: boolean = Boolean(likes.find((id) => id === currentUser._id));
+  const isMyCard = Boolean(owner === currentUser._id);
+  const isLiked = Boolean(likes.find((id) => id === currentUser._id));
 
   const handleCardClick = (): void => {
     onCardClick(card);
@@ -33,12 +33,19 @@ export const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCar
 
   return (
     <li className='photo-elements__item'>
-      <img className='photo-elements__image' src={link} alt='Фото места' onClick={handleCardClick} />
+      <img
+        className='photo-elements__image'
+        src={link}
+        alt='Фото места'
+        onClick={handleCardClick}
+      />
       <div className='photo-elements__caption'>
         <h2 className='photo-elements__text'>{name}</h2>
         <div className='photo-elements__like-container'>
           <button
-            className={`photo-elements__like-button ${isLiked ? 'photo-elements__like-button_active' : ''}`}
+            className={`photo-elements__like-button ${
+              isLiked ? 'photo-elements__like-button_active' : ''
+            }`}
             type='button'
             aria-label='Нравится'
             onClick={handleCardLike}
@@ -46,7 +53,9 @@ export const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCar
           <p className='photo-elements__like-counter'>{likes.length || '0'}</p>
         </div>
         <button
-          className={`photo-elements__delete-button ${!isMyCard ? 'photo-elements__delete-button_hidden' : ''}`}
+          className={`photo-elements__delete-button ${
+            !isMyCard ? 'photo-elements__delete-button_hidden' : ''
+          }`}
           type='button'
           aria-label='Удалить'
           onClick={handleCardDelete}
@@ -55,3 +64,5 @@ export const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCar
     </li>
   );
 };
+
+export default Card;

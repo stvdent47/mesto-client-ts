@@ -8,7 +8,11 @@ interface ModalWithImageProps {
   onClose: () => void;
 }
 
-export const ModalWithImage: React.FC<ModalWithImageProps> = ({ isOpen, card, onClose }) => {
+export const ModalWithImage: React.FC<ModalWithImageProps> = ({
+  isOpen,
+  card,
+  onClose,
+}: ModalWithImageProps) => {
   return (
     <div className={`pic-modal ${isOpen ? 'pic-modal_opened' : ''}`}>
       <div className='pic-modal__container'>
@@ -17,7 +21,12 @@ export const ModalWithImage: React.FC<ModalWithImageProps> = ({ isOpen, card, on
           <figcaption className='pic-modal__caption'>{card.name}</figcaption>
         </figure>
 
-        <button className='pic-modal__close-button' type='button' aria-label='Закрыть' onClick={onClose} />
+        <button
+          className='pic-modal__close-button'
+          type='button'
+          aria-label='Закрыть'
+          onClick={onClose}
+        />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ window.env = {
   "npm_config_only": "",
   "npm_config_commit_hooks": "true",
   "npm_config_browser": "",
-  "npm_package_gitHead": "d279746eda23d2f08570f81a727ca799c10abfde",
+  "npm_package_gitHead": "ff2647a4059cf5d5a29ab52a94993a27a5970dc1",
   "npm_config_also": "",
   "npm_config_sign_git_commit": "",
   "npm_config_rollback": "true",
@@ -98,6 +98,7 @@ window.env = {
   "npm_config_user": "501",
   "npm_config_node_version": "12.20.2",
   "npm_lifecycle_event": "dev",
+  "npm_package_devDependencies__types_react_router_dom": "^5.1.7",
   "npm_package_browserslist_production_2": "not op_mini all",
   "npm_config_save": "true",
   "npm_config_ignore_prepublish": "",
@@ -114,6 +115,7 @@ window.env = {
   "npm_config_searchstaleness": "900",
   "npm_config_optional": "true",
   "npm_config_ham_it_up": "",
+  "npm_package_dependencies_react_router_dom": "^5.2.0",
   "XPC_FLAGS": "0x0",
   "npm_config_save_prod": "",
   "npm_config_force": "",
@@ -193,5 +195,5 @@ window.env = {
   "npm_package_dependencies_react_jss": "^10.6.0",
   "COLORTERM": "truecolor",
   "API_URL": "http://localhost:3000",
-  "TEMP_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGJkYjFiMGUyZTEzNDQyOGE2MGUwYSIsImlhdCI6MTYxNzU3ODM0NiwiZXhwIjoxNjE4MTgzMTQ2fQ.Sw_l1gpd5iHLbWaeb3Dyd8-OEa4XrfwBROo7QLa0CCo"
+  "TEMP_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGJkYjFiMGUyZTEzNDQyOGE2MGUwYSIsImlhdCI6MTYxODE4MzI3NCwiZXhwIjoxNjE4Nzg4MDc0fQ.e3rs8QHtyVuiSwwnCF12fR2B8pbrcL9J6-GNUiESAFo"
 };

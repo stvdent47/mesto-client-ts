@@ -1,8 +1,7 @@
-import env from 'react-dotenv';
 import React, { useContext } from 'react';
 import './Main.css';
 // components
-import { Card } from '../Card/Card';
+import Card from '../Card/Card';
 // interfaces
 import { ICurrentUser } from '../../interfaces/ICurrentUser';
 import { ICard } from '../../interfaces/ICard';
@@ -28,26 +27,40 @@ const Main: React.FC<MainProps> = ({
   onCardClick,
   onCardLike,
   onCardDelete,
-}) => {
+}: MainProps) => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
 
   return (
     <main className='main'>
       <section className='profile'>
         <div className='profile__photo-container' onClick={onAvatarEdit}>
-          <img src={currentUser.avatar || defaultAvatar} alt='фото профиля' className='profile__photo' />
+          <img
+            src={currentUser.avatar || defaultAvatar}
+            alt='фото профиля'
+            className='profile__photo'
+          />
         </div>
 
         <div className='profile__info'>
           <div className='profile__title'>
             <h1 className='profile__name'>{currentUser.name || '...'}</h1>
-            <button className='profile__edit-button' type='button' aria-label='Редактировать' onClick={onProfileEdit} />
+            <button
+              className='profile__edit-button'
+              type='button'
+              aria-label='Редактировать'
+              onClick={onProfileEdit}
+            />
           </div>
 
           <p className='profile__description'>{currentUser.about || '...'}</p>
         </div>
 
-        <button className='profile__add-button' type='button' aria-label='Добавить' onClick={onAddPlace} />
+        <button
+          className='profile__add-button'
+          type='button'
+          aria-label='Добавить'
+          onClick={onAddPlace}
+        />
       </section>
 
       <section className='photo-elements'>
