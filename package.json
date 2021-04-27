@@ -20,7 +20,7 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "dev": "react-dotenv && PORT=3001 react-scripts start",
+    "dev": "react-dotenv && PORT=3011 react-scripts start",
     "build": "react-dotenv && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

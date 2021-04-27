@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import env from 'react-dotenv';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import './App.css';
 import { createUseStyles } from 'react-jss';
 // components
@@ -23,6 +23,7 @@ import createCard from '../../lib/requests/createCard';
 import getCards from '../../lib/requests/getCards';
 import handleLikeClick from '../../lib/requests/handleLikeClick';
 import deleteCard from '../../lib/requests/deleteCard';
+import authorize from '../../lib/requests/authorize';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Login from '../Login/Login';
@@ -41,9 +42,10 @@ const useStyles = createUseStyles({
 
 const App: React.FC = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [cards, setCards] = useState<ICard[]>([]);
   // modal states
   const [isModalEditOpen, setIsModalEditOpen] = useState<boolean>(false);
@@ -123,6 +125,50 @@ const App: React.FC = () => {
       .catch((err) => console.error(err));
   };
 
+  const handleLogin = (email: string, password: string): void => {
+    authorize(email, password)
+      .then((user) => {
+        const { name, email, avatar, about, id, token } = user;
+        if (token) {
+          localStorage.setItem('jwt', token);
+          setCurrentUser((prevState) => ({
+            ...prevState,
+            name,
+            email,
+            avatar,
+            about,
+            _id: id,
+          }));
+          tokenCheck();
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const tokenCheck = (): void => {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt) {
+      getCurrentUserInfo(jwt)
+        .then((user) => {
+          if (user) {
+            const { name, email, avatar, about, _id } = user;
+            setCurrentUser((prevState) => ({
+              ...prevState,
+              name,
+              email,
+              avatar,
+              about,
+              _id,
+            }));
+            setIsLoggedIn(true);
+            history.push('/feed');
+          }
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
   const closeModalByEscape = (evt: KeyboardEvent): void => {
     evt.key === 'Escape' && closeAllModals();
   };
@@ -134,29 +180,28 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    getCurrentUserInfo(TEMP_TOKEN)
-      .then((user) => setCurrentUser(user))
-      .catch((err) => console.error(err));
+    tokenCheck();
+    // getCurrentUserInfo(TEMP_TOKEN)
+    //   .then((user) => setCurrentUser(user))
+    //   .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
-    getCards(TEMP_TOKEN)
-      .then((cards) => {
-        setCards(cards.reverse());
-      })
-      .catch((err) => console.error(err));
-  }, []);
+    if (isLoggedIn)
+      getCards()
+        .then((cards) => {
+          setCards(cards.reverse());
+        })
+        .catch((err) => console.error(err));
+  }, [isLoggedIn]);
 
-  // useEffect(() => {
-  //   console.log(cards);
-  // }, [cards]);
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className={classes.page}>
         <Header />
         <Switch>
           <Route exact path='/sign-in'>
-            <Login />
+            <Login onLogin={handleLogin} />
           </Route>
           <Route exact path='/sign-up'>
             <Register />

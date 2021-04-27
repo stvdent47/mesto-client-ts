@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 // jss
 import useStyles from '../../styles/loginStyles';
 // requests
@@ -11,6 +11,7 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 const Register: React.FC = (): JSX.Element => {
   const classes = useStyles();
+  const history = useHistory();
 
   const {
     values,
@@ -24,14 +25,16 @@ const Register: React.FC = (): JSX.Element => {
   const [signUpResult, setSignUpResult] = useState<boolean>(false);
   const [isInfoTooltipOpen, setisInfoTooltipOpen] = useState<boolean>(false);
 
-  const onRegister = (evt: React.FormEvent) => {
+  const onRegister = (evt: React.FormEvent): void => {
     evt.preventDefault();
 
     handleRegister(values.registerEmail, values.registerPassword)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setSignUpResult(true);
         setisInfoTooltipOpen(true);
+
+        resetForm();
       })
       .catch((err) => {
         setSignUpResult(false);
@@ -40,7 +43,10 @@ const Register: React.FC = (): JSX.Element => {
       });
   };
 
-  const closeInfoTooltipModal = (): void => setisInfoTooltipOpen(false);
+  const closeInfoTooltipModal = (): void => {
+    setisInfoTooltipOpen(false);
+    history.push('/sign-in');
+  };
 
   return (
     <>
@@ -84,7 +90,11 @@ const Register: React.FC = (): JSX.Element => {
         </div>
       </div>
 
-      <InfoTooltip signUpResult={signUpResult} isOpen={isInfoTooltipOpen} onClose={closeInfoTooltipModal} />
+      <InfoTooltip
+        signUpResult={signUpResult}
+        isOpen={isInfoTooltipOpen}
+        onClose={closeInfoTooltipModal}
+      />
     </>
   );
 };

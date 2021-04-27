@@ -1,31 +1,55 @@
 import React from 'react';
 // jss
 import useStyles from '../../styles/loginStyles';
+// hooks
+import useFormWithValidation from '../../hooks/useFormWithValidation';
 
-const Login: React.FC = () => {
+interface LoginProps {
+  onLogin: (email: string, password: string) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ onLogin }: LoginProps): JSX.Element => {
   const classes = useStyles();
+
+  const {
+    values,
+    setValues,
+    errors,
+    isFormValid,
+    handleChange,
+    resetForm,
+  } = useFormWithValidation();
+
+  const handleSubmit = (evt: React.FormEvent) => {
+    evt.preventDefault();
+    if (!values.loginEmail || !values.loginPassword) return;
+
+    onLogin(values.loginEmail, values.loginPassword);
+
+    // resetForm();
+  };
 
   return (
     <>
       <div className={classes.login}>
         <div className='login__containter'>
           <h1 className={classes.login__title}>Вход</h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
               type='email'
-              name='email'
+              name='loginEmail'
               className={classes.login__input}
               placeholder='Email'
-              // value={userData.email}
-              // onChange={handleInputChange}
+              value={values.loginEmail}
+              onChange={handleChange}
             />
             <input
               type='password'
-              name='password'
+              name='loginPassword'
               className={classes.login__input}
               placeholder='Пароль'
-              // value={userData.password}
-              // onChange={handleInputChange}
+              value={values.loginPassword}
+              onChange={handleChange}
             />
             {/* <div> */}
             <button type='submit' className={classes.login__button}>

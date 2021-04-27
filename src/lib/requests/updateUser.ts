@@ -1,19 +1,18 @@
 import env from "react-dotenv";
 import checkErrors from '../checkErrors';
 
-const { API_URL, TEMP_TOKEN } = env;
+const { API_URL } = env;
 
-interface IUpdateUser {
+interface IUpdatedUser {
   name: string;
   about: string;
 }
 
-const updateUser = (name: string, about: string): Promise<IUpdateUser> => {
+const updateUser = (name: string, about: string): Promise<IUpdatedUser> => {
   return fetch(`${API_URL}/users/me`, {
     method: 'PATCH',
     headers: {
-      authorization: `Bearer ${TEMP_TOKEN}`,
-      // authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      authorization: `Bearer ${localStorage.getItem('jwt')}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
