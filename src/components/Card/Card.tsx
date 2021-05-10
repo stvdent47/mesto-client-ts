@@ -12,7 +12,12 @@ interface CardProps {
   onCardDelete: (cardId: string) => void;
 }
 
-const Card: React.FC<CardProps> = ({ card, onCardClick, onCardLike, onCardDelete }: CardProps) => {
+const Card: React.FC<CardProps> = ({
+  card,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+}: CardProps): JSX.Element => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
   // console.log(card);
   const { name, link, likes, owner, _id: cardId } = card;

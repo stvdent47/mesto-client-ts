@@ -21,7 +21,7 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
   onSubmit,
   isFormValid,
   children,
-}) => {
+}: ModalWithFormProps): JSX.Element => {
   return (
     <div className={`modal ${name}-modal ${isOpen ? 'modal_opened' : ''}`}>
       <div className='modal__container'>
@@ -35,12 +35,20 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
           noValidate
         >
           {children}
-          <button type='submit' className={`modal__button ${!isFormValid ? 'modal__button_disabled' : ''}`}>
+          <button
+            type='submit'
+            className={`modal__button ${!isFormValid ? 'modal__button_disabled' : ''}`}
+          >
             {submitButtonText}
           </button>
         </form>
 
-        <button className='modal__close-button' type='button' aria-label='Закрыть' onClick={onClose} />
+        <button
+          className='modal__close-button'
+          type='button'
+          aria-label='Закрыть'
+          onClick={onClose}
+        />
       </div>
     </div>
   );

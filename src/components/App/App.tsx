@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import env from 'react-dotenv';
 import { Switch, Route, useHistory } from 'react-router-dom';
-import './App.css';
-import { createUseStyles } from 'react-jss';
+// import useStyles from './appStyles';
 // components
 import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import Main from '../Main/Main';
 import ModalEdit from '../ModalEdit/ModalEdit';
 import ModalAdd from '../ModalAdd/ModalAdd';
@@ -29,19 +26,7 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
 
-const { TEMP_TOKEN } = env;
-const useStyles = createUseStyles({
-  page: {
-    maxWidth: 1200,
-    minWidth: 320,
-    width: '100%',
-    margin: '0 auto',
-    fontFamily: "'Inter', 'Arial', sans-serif",
-  },
-});
-
-const App: React.FC = () => {
-  const classes = useStyles();
+const App: React.FC = (): JSX.Element => {
   const history = useHistory();
 
   const [currentUser, setCurrentUser] = useState<ICurrentUser>(emptyUser);
@@ -145,6 +130,11 @@ const App: React.FC = () => {
       .catch((err) => console.error(err));
   };
 
+  const handleSignOut = (): void => {
+    localStorage.removeItem('jwt');
+    setIsLoggedIn(false);
+  };
+
   const tokenCheck = (): void => {
     const jwt = localStorage.getItem('jwt');
 
@@ -181,9 +171,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     tokenCheck();
-    // getCurrentUserInfo(TEMP_TOKEN)
-    //   .then((user) => setCurrentUser(user))
-    //   .catch((err) => console.error(err));
   }, []);
 
   useEffect(() => {
@@ -197,8 +184,7 @@ const App: React.FC = () => {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className={classes.page}>
-        <Header />
+        <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
         <Switch>
           <Route exact path='/sign-in'>
             <Login onLogin={handleLogin} />
@@ -218,19 +204,7 @@ const App: React.FC = () => {
             onCardLike={handleCardLike}
             onCardDelete={handleDeleteCard}
           />
-          {/* <Route path='/feed'>
-            <Main
-              cards={cards}
-              onProfileEdit={handleEditProfileClick}
-              onAvatarEdit={handleEditAvatarClick}
-              onAddPlace={handleAddPlaceClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onCardDelete={handleDeleteCard}
-            />
-          </Route> */}
         </Switch>
-        <Footer />
 
         <ModalEdit
           isOpen={isModalEditOpen}
@@ -266,7 +240,6 @@ const App: React.FC = () => {
           <button className='modal__close-button' type='button' aria-label='Закрыть'></button>
         </div>
       </div> */}
-      </div>
     </CurrentUserContext.Provider>
   );
 };

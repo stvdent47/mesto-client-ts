@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import './Main.css';
 // components
+import Footer from '../Footer/Footer';
 import Card from '../Card/Card';
 // interfaces
 import { ICurrentUser } from '../../interfaces/ICurrentUser';
@@ -31,52 +32,55 @@ const Main: React.FC<MainProps> = ({
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
 
   return (
-    <main className='main'>
-      <section className='profile'>
-        <div className='profile__photo-container' onClick={onAvatarEdit}>
-          <img
-            src={currentUser.avatar || defaultAvatar}
-            alt='фото профиля'
-            className='profile__photo'
-          />
-        </div>
-
-        <div className='profile__info'>
-          <div className='profile__title'>
-            <h1 className='profile__name'>{currentUser.name || '...'}</h1>
-            <button
-              className='profile__edit-button'
-              type='button'
-              aria-label='Редактировать'
-              onClick={onProfileEdit}
+    <>
+      <main className='main'>
+        <section className='profile'>
+          <div className='profile__photo-container' onClick={onAvatarEdit}>
+            <img
+              src={currentUser.avatar || defaultAvatar}
+              alt='фото профиля'
+              className='profile__photo'
             />
           </div>
 
-          <p className='profile__description'>{currentUser.about || '...'}</p>
-        </div>
+          <div className='profile__info'>
+            <div className='profile__title'>
+              <h1 className='profile__name'>{currentUser.name || '...'}</h1>
+              <button
+                className='profile__edit-button'
+                type='button'
+                aria-label='Редактировать'
+                onClick={onProfileEdit}
+              />
+            </div>
 
-        <button
-          className='profile__add-button'
-          type='button'
-          aria-label='Добавить'
-          onClick={onAddPlace}
-        />
-      </section>
+            <p className='profile__description'>{currentUser.about || '...'}</p>
+          </div>
 
-      <section className='photo-elements'>
-        <ul className='photo-elements__list'>
-          {cards.map((card) => (
-            <Card
-              card={card}
-              key={card._id}
-              onCardClick={onCardClick}
-              onCardLike={onCardLike}
-              onCardDelete={onCardDelete}
-            />
-          ))}
-        </ul>
-      </section>
-    </main>
+          <button
+            className='profile__add-button'
+            type='button'
+            aria-label='Добавить'
+            onClick={onAddPlace}
+          />
+        </section>
+
+        <section className='photo-elements'>
+          <ul className='photo-elements__list'>
+            {cards.map((card) => (
+              <Card
+                card={card}
+                key={card._id}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
+              />
+            ))}
+          </ul>
+        </section>
+      </main>
+      <Footer />
+    </>
   );
 };
 

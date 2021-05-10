@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 // jss
-import useStyles from '../../styles/loginStyles';
+import useStyles from '../Login/loginStyles';
 // requests
 import handleRegister from '../../lib/requests/handleRegister';
 // hooks

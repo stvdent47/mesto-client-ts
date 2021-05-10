@@ -11,7 +11,7 @@ interface ModalAddProps {
   onAddPlace: (name: string, link: string, resetFormCb: () => void) => void;
 }
 
-const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }) => {
+const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }: ModalAddProps): JSX.Element => {
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -50,7 +50,9 @@ const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }) => {
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${errors.placeName ? 'modal__input-error-message_visible' : ''}`}
+        className={`modal__input-error-message ${
+          errors.placeName ? 'modal__input-error-message_visible' : ''
+        }`}
         id='place-name-error'
       >
         {errors.placeName}
@@ -67,7 +69,9 @@ const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }) => {
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${errors.placeLink ? 'modal__input-error-message_visible' : ''}`}
+        className={`modal__input-error-message ${
+          errors.placeLink ? 'modal__input-error-message_visible' : ''
+        }`}
         id='place-link-error'
       >
         {errors.placeLink}

@@ -13,10 +13,21 @@ interface ModalEditProps {
   onUpdateUser: (name: string, about: string) => void;
 }
 
-const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) => {
+const ModalEdit: React.FC<ModalEditProps> = ({
+  isOpen,
+  onClose,
+  onUpdateUser,
+}: ModalEditProps): JSX.Element => {
   const currentUser = useContext(CurrentUserContext);
 
-  const { values, setValues, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
+  const {
+    values,
+    setValues,
+    errors,
+    isFormValid,
+    handleChange,
+    resetForm,
+  } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent): void => {
     evt.preventDefault();
@@ -61,7 +72,9 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${errors.profileName ? 'modal__input-error-message_visible' : ''}`}
+        className={`modal__input-error-message ${
+          errors.profileName ? 'modal__input-error-message_visible' : ''
+        }`}
         id='profile-name-error'
       >
         {errors.profileName}
@@ -81,7 +94,9 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }) 
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${errors.profileAbout ? 'modal__input-error-message_visible' : ''}`}
+        className={`modal__input-error-message ${
+          errors.profileAbout ? 'modal__input-error-message_visible' : ''
+        }`}
         id='profile-job-error'
       >
         {errors.profileAbout}

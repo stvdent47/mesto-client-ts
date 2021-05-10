@@ -11,7 +11,11 @@ interface ModalAvatarUpdateProps {
   onClose: () => void;
   onAvatarUpdate: (avatarUrl: string, resetForm: () => void) => void;
 }
-const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({ isOpen, onClose, onAvatarUpdate }) => {
+const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({
+  isOpen,
+  onClose,
+  onAvatarUpdate,
+}: ModalAvatarUpdateProps): JSX.Element => {
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -45,7 +49,9 @@ const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({ isOpen, onClose, 
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${errors.avatarUrl ? 'modal__input-error-message_visible' : ''}`}
+        className={`modal__input-error-message ${
+          errors.avatarUrl ? 'modal__input-error-message_visible' : ''
+        }`}
         id='avatar-link-error'
       >
         {errors.avatarUrl}

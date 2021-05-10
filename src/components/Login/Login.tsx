@@ -1,6 +1,6 @@
 import React from 'react';
 // jss
-import useStyles from '../../styles/loginStyles';
+import useStyles from './loginStyles';
 // hooks
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 

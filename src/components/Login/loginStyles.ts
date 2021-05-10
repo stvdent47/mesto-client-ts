@@ -4,9 +4,10 @@ const loginStyles = {
   login: {
     maxWidth: 358,
     width: '100%',
+    height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    margin: { left: 'auto', bottom: 250, right: 'auto' },
+    margin: { left: 'auto', right: 'auto' },
     padding: { top: '60px' },
     color: '#fff',
   },
