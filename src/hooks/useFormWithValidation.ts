@@ -4,12 +4,12 @@ interface ITextInputState {
   [key: string]: string;
 }
 
-interface IUseForm {
-  values: ITextInputState;
-  errors: ITextInputState;
-  isFormValid: boolean;
-  handleChange: () => void;
-}
+// interface IUseForm {
+//   values: ITextInputState;
+//   errors: ITextInputState;
+//   isFormValid: boolean;
+//   handleChange: () => void;
+// }
 
 const useFormWithValidation = () => {
   const [values, setValues] = useState<ITextInputState>({});

@@ -12,7 +12,7 @@ export const ModalWithImage: React.FC<ModalWithImageProps> = ({
   isOpen,
   card,
   onClose,
-}: ModalWithImageProps): JSX.Element => {
+}): JSX.Element => {
   return (
     <div className={`pic-modal ${isOpen ? 'pic-modal_opened' : ''}`}>
       <div className='pic-modal__container'>

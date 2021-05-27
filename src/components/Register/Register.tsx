@@ -15,9 +15,9 @@ const Register: React.FC = (): JSX.Element => {
 
   const {
     values,
-    setValues,
+    // setValues,
     errors,
-    isFormValid,
+    // isFormValid,
     handleChange,
     resetForm,
   } = useFormWithValidation();
@@ -53,7 +53,7 @@ const Register: React.FC = (): JSX.Element => {
       <div className={classes.login}>
         <div className='login__containter'>
           <h1 className={classes.login__title}>Регистрация</h1>
-          <form className='login__form' onSubmit={onRegister}>
+          <form onSubmit={onRegister} className={classes.login__form}>
             <input
               id='email'
               name='registerEmail'

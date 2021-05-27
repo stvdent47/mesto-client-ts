@@ -11,7 +11,7 @@ interface ModalAddProps {
   onAddPlace: (name: string, link: string, resetFormCb: () => void) => void;
 }
 
-const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }: ModalAddProps): JSX.Element => {
+const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX.Element => {
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {

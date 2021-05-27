@@ -8,16 +8,16 @@ interface LoginProps {
   onLogin: (email: string, password: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }: LoginProps): JSX.Element => {
+const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
   const classes = useStyles();
 
   const {
     values,
-    setValues,
-    errors,
-    isFormValid,
+    // setValues,
+    // errors,
+    // isFormValid,
     handleChange,
-    resetForm,
+    // resetForm,
   } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -34,7 +34,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }: LoginProps): JSX.Element => {
       <div className={classes.login}>
         <div className='login__containter'>
           <h1 className={classes.login__title}>Вход</h1>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className={classes.login__form}>
             <input
               type='email'
               name='loginEmail'

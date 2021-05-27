@@ -12,7 +12,7 @@ interface NavBarProps {
   onSignOut: () => void;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }: NavBarProps): JSX.Element => {
+const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }): JSX.Element => {
   const classes = useStyles();
   const location = useLocation();
 

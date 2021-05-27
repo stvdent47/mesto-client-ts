@@ -18,13 +18,13 @@
 @media all and (max-width: 954px) {
   .header {
     max-width: calc(100% - 54px);
-    padding: 45px 27px 0;
+    padding: 45px 30px 0;
   }
 }
 
 @media all and (max-width: 650px) {
   .header {
-    padding: 28px 27px 0;
+    padding: 28px 30px 0;
   }
 }
 

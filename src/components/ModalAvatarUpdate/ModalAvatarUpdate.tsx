@@ -15,7 +15,7 @@ const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({
   isOpen,
   onClose,
   onAvatarUpdate,
-}: ModalAvatarUpdateProps): JSX.Element => {
+}): JSX.Element => {
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {

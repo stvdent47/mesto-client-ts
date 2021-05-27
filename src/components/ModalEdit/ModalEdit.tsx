@@ -13,11 +13,7 @@ interface ModalEditProps {
   onUpdateUser: (name: string, about: string) => void;
 }
 
-const ModalEdit: React.FC<ModalEditProps> = ({
-  isOpen,
-  onClose,
-  onUpdateUser,
-}: ModalEditProps): JSX.Element => {
+const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }): JSX.Element => {
   const currentUser = useContext(CurrentUserContext);
 
   const {

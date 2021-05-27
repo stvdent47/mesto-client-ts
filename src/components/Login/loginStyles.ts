@@ -19,6 +19,11 @@ const loginStyles = {
     margin: { left: 'auto', right: 'auto' },
     padding: { bottom: 50 },
   },
+  login__form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   login__input: {
     width: 358,
     padding: { bottom: 13 },
@@ -43,7 +48,8 @@ const loginStyles = {
     width: 358,
     height: 50,
     border: 'none',
-    margin: 0,
+    margin: { top: 216 },
+    // margin: 0,
     fontSize: 18,
     lineHeight: '22px',
     '&:hover': {
@@ -65,6 +71,15 @@ const loginStyles = {
     height: 'min-content',
     '&:hover': {
       opacity: 0.6,
+    },
+  },
+  '@media all and (min-width: 320px)': {
+    login__input: {
+      width: 260,
+    },
+    login__button: {
+      width: 260,
+      margin: { top: 173 },
     },
   },
 };

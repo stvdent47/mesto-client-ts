@@ -6,6 +6,7 @@ const navBarStyles = {
     listStyleType: 'none',
     display: 'flex',
     flexDirection: 'row',
+    margin: 0,
   },
   'navbar__list-item': {
     color: '#fff',
@@ -13,7 +14,7 @@ const navBarStyles = {
   navbar__link: {
     color: '#fff',
     textDecoration: 'none',
-    margin: { left: 24 },
+    margin: { top: 6, left: 24 },
     '&::first-of-type': {
       margin: 0,
     },
@@ -21,6 +22,12 @@ const navBarStyles = {
   'navbar__link-signout': {
     color: '#a9a9a9',
   },
+  '@media all and (min-width: 320px)': {
+    navbar__link: {
+      fontSize: '14px',
+      lineHeight: '17px',
+    }
+  }
 };
 
 const useStyles = createUseStyles(navBarStyles);

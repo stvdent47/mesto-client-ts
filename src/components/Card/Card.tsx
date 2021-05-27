@@ -17,7 +17,7 @@ const Card: React.FC<CardProps> = ({
   onCardClick,
   onCardLike,
   onCardDelete,
-}: CardProps): JSX.Element => {
+}): JSX.Element => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
   // console.log(card);
   const { name, link, likes, owner, _id: cardId } = card;

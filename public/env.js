@@ -7,7 +7,7 @@ window.env = {
   "npm_config_only": "",
   "npm_config_commit_hooks": "true",
   "npm_config_browser": "",
-  "npm_package_gitHead": "a7e25409791cd6aada71f7128d53c8498e11e8f3",
+  "npm_package_gitHead": "66f501b17e6d5f14a6074507d9e412aa87bb1143",
   "npm_config_also": "",
   "npm_config_sign_git_commit": "",
   "npm_config_rollback": "true",
@@ -31,7 +31,7 @@ window.env = {
   "npm_config_timing": "",
   "npm_config_init_license": "ISC",
   "npm_config_if_present": "",
-  "TERM_PROGRAM_VERSION": "1.56.0",
+  "TERM_PROGRAM_VERSION": "1.56.2",
   "npm_package_scripts_dev": "react-dotenv && PORT=3011 react-scripts start",
   "npm_config_sign_git_tag": "",
   "npm_config_init_author_email": "",
@@ -195,6 +195,5 @@ window.env = {
   "npm_config_format_package_lock": "true",
   "npm_package_dependencies_react_jss": "^10.6.0",
   "COLORTERM": "truecolor",
-  "API_URL": "http://localhost:3000",
-  "TEMP_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwODg4MWVmYWY5ZTc0MGYzNWJkMTcyMiIsImlhdCI6MTYxOTU2MDAyOCwiZXhwIjoxNjIwMTY0ODI4fQ.7DcG55L2k_RV59HLj3zC5HsfNQlsfWs1DrMdkcXw3YU"
+  "API_URL": "http://localhost:3000"
 };

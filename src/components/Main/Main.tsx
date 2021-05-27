@@ -28,7 +28,7 @@ const Main: React.FC<MainProps> = ({
   onCardClick,
   onCardLike,
   onCardDelete,
-}: MainProps): JSX.Element => {
+}): JSX.Element => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
 
   return (

@@ -1,4 +1,5 @@
 import React from 'react';
+import useStyles from './modalWithFormStyles';
 import './ModalWithForm.css';
 
 interface ModalWithFormProps {
@@ -21,9 +22,12 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
   onSubmit,
   isFormValid,
   children,
-}: ModalWithFormProps): JSX.Element => {
+}): JSX.Element => {
+  const classes = useStyles({ isOpen, isFormValid });
+
   return (
-    <div className={`modal ${name}-modal ${isOpen ? 'modal_opened' : ''}`}>
+    // <div className={`modal ${name}-modal ${isOpen ? 'modal_opened' : ''}`}>
+    <div className={classes.modal}>
       <div className='modal__container'>
         <h2 className='modal__title'>{title}</h2>
         <form
@@ -37,7 +41,7 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
           {children}
           <button
             type='submit'
-            className={`modal__button ${!isFormValid ? 'modal__button_disabled' : ''}`}
+            className={classes.modal__button}
           >
             {submitButtonText}
           </button>

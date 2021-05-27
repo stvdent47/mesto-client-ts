@@ -8,7 +8,7 @@ interface HeaderProps {
   isLoggedIn: boolean;
   onSignOut: () => void;
 }
-const Header: React.FC<HeaderProps> = ({ isLoggedIn, onSignOut }: HeaderProps): JSX.Element => {
+const Header: React.FC<HeaderProps> = ({ isLoggedIn, onSignOut }): JSX.Element => {
   return (
     <header className='header'>
       <img src={logo} alt='логотип место' className='header__logo' />
