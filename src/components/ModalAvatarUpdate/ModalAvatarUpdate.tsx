@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
 // components
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
 // hooks
@@ -16,6 +17,7 @@ const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({
   onClose,
   onAvatarUpdate,
 }): JSX.Element => {
+  const classes = useStyles();
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -43,14 +45,14 @@ const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({
         name='avatarUrl'
         id='avatar-link-input'
         placeholder='Ссылка на картинку'
-        className='modal__input'
+        className={classes.modal__input}
         required
         value={values.avatarUrl || ''}
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${
-          errors.avatarUrl ? 'modal__input-error-message_visible' : ''
+        className={`${classes['modal__input-error-message']} ${
+          errors.avatarUrl ? classes['modal__input-error-message_visible'] : ''
         }`}
         id='avatar-link-error'
       >

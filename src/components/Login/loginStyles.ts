@@ -73,7 +73,7 @@ const loginStyles = {
       opacity: 0.6,
     },
   },
-  '@media all and (min-width: 320px)': {
+  '@media all and (max-width: 380px)': {
     login__input: {
       width: 260,
     },
@@ -87,4 +87,3 @@ const loginStyles = {
 const useStyles = createUseStyles(loginStyles);
 
 export default useStyles;
-// export default loginStyles;

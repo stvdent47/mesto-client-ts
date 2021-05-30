@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
+import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
 //
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 //
@@ -12,6 +13,7 @@ interface ModalAddProps {
 }
 
 const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX.Element => {
+  const classes = useStyles();
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
@@ -41,7 +43,7 @@ const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX
         name='placeName'
         id='place-name-input'
         placeholder='Название'
-        className='modal__input'
+        className={classes.modal__input}
         required
         minLength={1}
         maxLength={30}
@@ -50,8 +52,8 @@ const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${
-          errors.placeName ? 'modal__input-error-message_visible' : ''
+        className={`${classes['modal__input-error-message']} ${
+          errors.placeName ? classes['modal__input-error-message_visible'] : ''
         }`}
         id='place-name-error'
       >
@@ -63,14 +65,14 @@ const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX
         name='placeLink'
         id='place-link-input'
         placeholder='Ссылка на картинку'
-        className='modal__input'
+        className={classes.modal__input}
         required
         value={values.placeLink || ''}
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${
-          errors.placeLink ? 'modal__input-error-message_visible' : ''
+        className={`${classes['modal__input-error-message']} ${
+          errors.placeLink ? classes['modal__input-error-message_visible'] : ''
         }`}
         id='place-link-error'
       >

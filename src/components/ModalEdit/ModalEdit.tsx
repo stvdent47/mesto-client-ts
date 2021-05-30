@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
 // components
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
 // hooks
@@ -14,6 +15,7 @@ interface ModalEditProps {
 }
 
 const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }): JSX.Element => {
+  const classes = useStyles();
   const currentUser = useContext(CurrentUserContext);
 
   const {
@@ -59,7 +61,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
         name='profileName'
         id='profile-name-input'
         placeholder='Ваше имя'
-        className='modal__input'
+        className={classes.modal__input}
         required
         minLength={2}
         maxLength={40}
@@ -68,8 +70,8 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${
-          errors.profileName ? 'modal__input-error-message_visible' : ''
+        className={`${classes['modal__input-error-message']} ${
+          errors.profileName ? classes['modal__input-error-message_visible'] : ''
         }`}
         id='profile-name-error'
       >
@@ -81,7 +83,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
         name='profileAbout'
         id='profile-job-input'
         placeholder='Ваша профессия'
-        className='modal__input'
+        className={classes.modal__input}
         required
         minLength={2}
         maxLength={200}
@@ -90,8 +92,8 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
         onChange={handleChange}
       />
       <p
-        className={`modal__input-error-message ${
-          errors.profileAbout ? 'modal__input-error-message_visible' : ''
+        className={`${classes['modal__input-error-message']} ${
+          errors.profileAbout ? classes['modal__input-error-message_visible'] : ''
         }`}
         id='profile-job-error'
       >
