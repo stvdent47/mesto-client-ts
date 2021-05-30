@@ -1,10 +1,11 @@
 import React from 'react';
-import './Footer.css';
+import useStyles from './footerStyles';
 
 const Footer: React.FC = (): JSX.Element => {
+  const classes = useStyles();
   return (
-    <footer className='footer'>
-      <p className='footer__copyright'>&copy; 2020 Mesto Russia</p>
+    <footer className={classes.footer}>
+      <p className={classes.footer__copyright}>&copy; 2020 Mesto Russia</p>
     </footer>
   );
 };
