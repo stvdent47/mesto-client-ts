@@ -55,6 +55,7 @@ const modalWithFormStyles = {
       ? {
           backgroundColor: 'rgba(0, 0, 0, 0.8)',
           cursor: 'pointer',
+          color: '#fff',
           transition: 'background-color 0.2s linear',
         }
       : {

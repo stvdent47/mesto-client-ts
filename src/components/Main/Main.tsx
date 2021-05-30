@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import useStyles from './mainStyles';
 import './Main.css';
 // components
 import Footer from '../Footer/Footer';
@@ -29,6 +30,7 @@ const Main: React.FC<MainProps> = ({
   onCardLike,
   onCardDelete,
 }): JSX.Element => {
+  const classes = useStyles();
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
 
   return (
@@ -66,7 +68,7 @@ const Main: React.FC<MainProps> = ({
         </section>
 
         <section className='photo-elements'>
-          <ul className='photo-elements__list'>
+          <ul className={classes.photoElements__list}>
             {cards.map((card) => (
               <Card
                 card={card}

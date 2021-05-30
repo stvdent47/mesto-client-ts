@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import './Card.css';
+import useStyles from './cardStyles';
 // interfaces
 import { ICurrentUser } from '../../interfaces/ICurrentUser';
 import { ICard } from '../../interfaces/ICard';
@@ -19,11 +19,12 @@ const Card: React.FC<CardProps> = ({
   onCardDelete,
 }): JSX.Element => {
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
-  // console.log(card);
   const { name, link, likes, owner, _id: cardId } = card;
 
   const isMyCard = Boolean(owner === currentUser._id);
   const isLiked = Boolean(likes.find((id) => id === currentUser._id));
+
+  const classes = useStyles({ isLiked, isMyCard });
 
   const handleCardClick = (): void => {
     onCardClick(card);
@@ -37,30 +38,26 @@ const Card: React.FC<CardProps> = ({
   };
 
   return (
-    <li className='photo-elements__item'>
+    <li className={classes.photoElements__item}>
       <img
-        className='photo-elements__image'
+        className={classes.photoElements__image}
         src={link}
         alt='Фото места'
         onClick={handleCardClick}
       />
-      <div className='photo-elements__caption'>
-        <h2 className='photo-elements__text'>{name}</h2>
-        <div className='photo-elements__like-container'>
+      <div className={classes.photoElements__caption}>
+        <h2 className={classes.photoElements__text}>{name}</h2>
+        <div className={classes.photoElements__likeContainer}>
           <button
-            className={`photo-elements__like-button ${
-              isLiked ? 'photo-elements__like-button_active' : ''
-            }`}
+            className={classes.photoElements__likeButton}
             type='button'
             aria-label='Нравится'
             onClick={handleCardLike}
           />
-          <p className='photo-elements__like-counter'>{likes.length || '0'}</p>
+          <p className={classes.photoElements__likeCounter}>{likes.length || '0'}</p>
         </div>
         <button
-          className={`photo-elements__delete-button ${
-            !isMyCard ? 'photo-elements__delete-button_hidden' : ''
-          }`}
+          className={classes.photoElements__deleteButton}
           type='button'
           aria-label='Удалить'
           onClick={handleCardDelete}
