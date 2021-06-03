@@ -1,5 +1,6 @@
 import React from 'react';
-import './ModalWithImage.css';
+import useStyles from './modalWithImageStyles';
+// import './ModalWithImage.css';
 import { ICard } from '../../interfaces/ICard';
 
 interface ModalWithImageProps {
@@ -13,16 +14,21 @@ export const ModalWithImage: React.FC<ModalWithImageProps> = ({
   card,
   onClose,
 }): JSX.Element => {
+  const classes = useStyles({ isOpen });
   return (
-    <div className={`pic-modal ${isOpen ? 'pic-modal_opened' : ''}`}>
-      <div className='pic-modal__container'>
-        <figure className='pic-modal__picture'>
-          <img src={card.link} alt='Полноразмерное фото места' className='pic-modal__image' />
-          <figcaption className='pic-modal__caption'>{card.name}</figcaption>
+    <div className={classes.picModal}>
+      <div className={classes.picModal__container}>
+        <figure className={classes.picModal__picture}>
+          <img
+            src={card.link}
+            alt='Полноразмерное фото места'
+            className={classes.picModal__image}
+          />
+          <figcaption className={classes.picModal__caption}>{card.name}</figcaption>
         </figure>
 
         <button
-          className='pic-modal__close-button'
+          className={classes.picModal__closeButton}
           type='button'
           aria-label='Закрыть'
           onClick={onClose}
