@@ -9,15 +9,15 @@ interface HeaderProps {
   onSignOut: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ isLoggedIn, onSignOut }): JSX.Element => {
-  const classes = useStyles();
+export const Header: React.FC<HeaderProps> = React.memo(
+  ({ isLoggedIn, onSignOut }): JSX.Element => {
+    const classes = useStyles();
 
-  return (
-    <header className={classes.header}>
-      <img src={logo} alt='логотип место' className={classes.header__logo} />
-      <NavBar isLoggedIn={isLoggedIn} onSignOut={onSignOut} />
-    </header>
-  );
-};
-
-export default Header;
+    return (
+      <header className={classes.header}>
+        <img src={logo} alt='логотип место' className={classes.header__logo} />
+        <NavBar isLoggedIn={isLoggedIn} onSignOut={onSignOut} />
+      </header>
+    );
+  }
+);

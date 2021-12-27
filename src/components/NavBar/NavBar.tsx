@@ -6,6 +6,7 @@ import clsx from 'clsx';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { ICurrentUser } from '../../interfaces/ICurrentUser';
+import { SIGN_IN_BUTTON_TEXT, SIGN_OUT_BUTTON_TEXT } from '../../utils/constants';
 
 interface NavBarProps {
   isLoggedIn: boolean;
@@ -30,7 +31,7 @@ const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }): JSX.Element =
                 className={clsx(classes.navbar__link, classes['navbar__link-signout'])}
                 onClick={onSignOut}
               >
-                Выйти
+                {SIGN_OUT_BUTTON_TEXT}
               </Link>
             </li>
           </>
@@ -42,7 +43,7 @@ const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }): JSX.Element =
         )}
         {!isLoggedIn && location.pathname === '/sign-up' && (
           <Link to='/sign-in' className={classes.navbar__link}>
-            Войти
+            {SIGN_IN_BUTTON_TEXT}
           </Link>
         )}
       </ul>

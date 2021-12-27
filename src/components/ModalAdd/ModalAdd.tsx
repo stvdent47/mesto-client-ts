@@ -4,82 +4,85 @@ import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
 //
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 //
-import { SAVE_BUTTON_TEXT } from '../../utils/constants';
+import { NAMING_TEXT, NEW_PLACE_TEXT, PICTURE_LINK_PLACEHOLDER, SAVE_BUTTON_TEXT } from '../../utils/constants';
+import { useActions } from '../../hooks/useActions';
 
 interface ModalAddProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddPlace: (name: string, link: string, resetFormCb: () => void) => void;
 }
 
-const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX.Element => {
-  const classes = useStyles();
-  const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
+export const ModalAdd: React.FC<ModalAddProps> = React.memo(
+  ({ isOpen, onClose }): JSX.Element => {
+    const classes = useStyles();
 
-  const handleSubmit = (evt: React.FormEvent) => {
-    evt.preventDefault();
+    const { createCard } = useActions();
+    const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
-    const { placeName, placeLink } = values;
+    const handleSubmit = (evt: React.FormEvent) => {
+      evt.preventDefault();
 
-    onAddPlace(placeName, placeLink, resetForm);
-  };
+      const { placeName: name, placeLink: link } = values;
+      createCard({ name, link });
 
-  useEffect(() => {
-    resetForm();
-  }, [isOpen]);
+      onClose();
+    };
 
-  return (
-    <ModalWithForm
-      name='add'
-      title='Новое место'
-      submitButtonText={SAVE_BUTTON_TEXT}
-      isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={handleSubmit}
-      isFormValid={isFormValid}
-    >
-      <input
-        type='text'
-        name='placeName'
-        id='place-name-input'
-        placeholder='Название'
-        className={classes.modal__input}
-        required
-        minLength={1}
-        maxLength={30}
-        autoComplete='off'
-        value={values.placeName || ''}
-        onChange={handleChange}
-      />
-      <p
-        className={`${classes['modal__input-error-message']} ${
-          errors.placeName ? classes['modal__input-error-message_visible'] : ''
-        }`}
-        id='place-name-error'
+    useEffect(() => {
+      resetForm();
+    }, [isOpen]);
+
+    return (
+      <ModalWithForm
+        name='add'
+        title={NEW_PLACE_TEXT}
+        submitButtonText={SAVE_BUTTON_TEXT}
+        isOpen={isOpen}
+        onClose={onClose}
+        onSubmit={handleSubmit}
+        isFormValid={isFormValid}
       >
-        {errors.placeName}
-      </p>
+        <input
+          type='text'
+          name='placeName'
+          id='place-name-input'
+          placeholder={NAMING_TEXT}
+          className={classes.modal__input}
+          required
+          minLength={1}
+          maxLength={30}
+          autoComplete='off'
+          value={values.placeName || ''}
+          onChange={handleChange}
+        />
+        <p
+          className={`${classes['modal__input-error-message']} ${
+            errors.placeName ? classes['modal__input-error-message_visible'] : ''
+          }`}
+          id='place-name-error'
+        >
+          {errors.placeName}
+        </p>
 
-      <input
-        type='url'
-        name='placeLink'
-        id='place-link-input'
-        placeholder='Ссылка на картинку'
-        className={classes.modal__input}
-        required
-        value={values.placeLink || ''}
-        onChange={handleChange}
-      />
-      <p
-        className={`${classes['modal__input-error-message']} ${
-          errors.placeLink ? classes['modal__input-error-message_visible'] : ''
-        }`}
-        id='place-link-error'
-      >
-        {errors.placeLink}
-      </p>
-    </ModalWithForm>
-  );
-};
-
-export default ModalAdd;
+        <input
+          type='url'
+          name='placeLink'
+          id='place-link-input'
+          placeholder={PICTURE_LINK_PLACEHOLDER}
+          className={classes.modal__input}
+          required
+          value={values.placeLink || ''}
+          onChange={handleChange}
+        />
+        <p
+          className={`${classes['modal__input-error-message']} ${
+            errors.placeLink ? classes['modal__input-error-message_visible'] : ''
+          }`}
+          id='place-link-error'
+        >
+          {errors.placeLink}
+        </p>
+      </ModalWithForm>
+    );
+  }
+);

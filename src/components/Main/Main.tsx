@@ -1,82 +1,73 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import useStyles from './mainStyles';
-import './Main.css';
 // components
-import Footer from '../Footer/Footer';
-import Card from '../Card/Card';
+import { Footer } from '../Footer/Footer';
+import { Card } from '../Card/Card';
 // interfaces
 import { ICurrentUser } from '../../interfaces/ICurrentUser';
-import { ICard } from '../../interfaces/ICard';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import defaultAvatar from '../../images/profile-photo.jpg';
+import { useActions } from '../../hooks/useActions';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+import { CardType } from '../../types/card';
 
 interface MainProps {
-  cards: ICard[];
+  isLoggedIn: boolean;
   onProfileEdit: () => void;
   onAvatarEdit: () => void;
   onAddPlace: () => void;
-  onCardClick: (card: ICard) => void;
-  onCardLike: (cardId: string, isLiked: boolean) => void;
-  onCardDelete: (cardId: string) => void;
+  onCardClick: (card: CardType) => void;
 }
 
-const Main: React.FC<MainProps> = ({
-  cards,
+export const Main: React.FC<MainProps> = ({
+  isLoggedIn,
   onProfileEdit,
   onAvatarEdit,
   onAddPlace,
   onCardClick,
-  onCardLike,
-  onCardDelete,
 }): JSX.Element => {
   const classes = useStyles();
   const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
 
+  const { fetchCards } = useActions();
+  const { cards } = useTypedSelector((state) => state.cards);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchCards();
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
-      <main className='main'>
-        <section className='profile'>
-          <div className='profile__photo-container' onClick={onAvatarEdit}>
-            <img
-              src={currentUser.avatar || defaultAvatar}
-              alt='фото профиля'
-              className='profile__photo'
-            />
+      <main className={classes.main}>
+        <section className={classes.profile}>
+          <div className={classes.profile__photoContainer} onClick={onAvatarEdit}>
+            <img src={currentUser.avatar || defaultAvatar} alt='фото профиля' className={classes.profile__photo} />
           </div>
 
-          <div className='profile__info'>
-            <div className='profile__title'>
-              <h1 className='profile__name'>{currentUser.name || '...'}</h1>
+          <div className={classes.profile__info}>
+            <div className={classes.profile__title}>
+              <h1 className={classes.profile__name}>{currentUser.name || '...'}</h1>
               <button
-                className='profile__edit-button'
+                className={classes.profile__editButton}
                 type='button'
                 aria-label='Редактировать'
                 onClick={onProfileEdit}
               />
             </div>
 
-            <p className='profile__description'>{currentUser.about || '...'}</p>
+            <p className={classes.profile__description}>{currentUser.about || '...'}</p>
           </div>
 
-          <button
-            className='profile__add-button'
-            type='button'
-            aria-label='Добавить'
-            onClick={onAddPlace}
-          />
+          <button className={classes.profile__addButton} type='button' aria-label='Добавить' onClick={onAddPlace} />
         </section>
 
-        <section className='photo-elements'>
+        <section className={classes.photoElements}>
           <ul className={classes.photoElements__list}>
-            {cards.map((card) => (
-              <Card
-                card={card}
-                key={card._id}
-                onCardClick={onCardClick}
-                onCardLike={onCardLike}
-                onCardDelete={onCardDelete}
-              />
+            {cards.map((card: CardType) => (
+              <Card card={card} key={card._id} onCardClick={onCardClick} />
             ))}
           </ul>
         </section>
@@ -85,5 +76,3 @@ const Main: React.FC<MainProps> = ({
     </>
   );
 };
-
-export default Main;

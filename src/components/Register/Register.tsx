@@ -8,6 +8,7 @@ import handleRegister from '../../lib/requests/handleRegister';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 // components
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import { IS_ALREADY_REGISTERED_TEXT, SIGN_IN_BUTTON_TEXT } from '../../utils/constants';
 
 const Register: React.FC = (): JSX.Element => {
   const classes = useStyles();
@@ -82,19 +83,15 @@ const Register: React.FC = (): JSX.Element => {
 
         <div className='login__button-containter'>
           <div className={classes['login__button-caption']}>
-            <span>Уже зарегистрированы?</span>
+            <span>{IS_ALREADY_REGISTERED_TEXT}</span>
             <Link to='/sign-in' className={classes.login__link}>
-              Войти
+              {SIGN_IN_BUTTON_TEXT}
             </Link>
           </div>
         </div>
       </div>
 
-      <InfoTooltip
-        signUpResult={signUpResult}
-        isOpen={isInfoTooltipOpen}
-        onClose={closeInfoTooltipModal}
-      />
+      <InfoTooltip signUpResult={signUpResult} isOpen={isInfoTooltipOpen} onClose={closeInfoTooltipModal} />
     </>
   );
 };

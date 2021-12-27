@@ -3,6 +3,7 @@ import React from 'react';
 import useStyles from './loginStyles';
 // hooks
 import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { SIGN_IN_BUTTON_TEXT, SIGN_IN_TITLE_TEXT } from '../../utils/constants';
 
 interface LoginProps {
   onLogin: (email: string, password: string) => void;
@@ -33,7 +34,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
     <>
       <div className={classes.login}>
         <div className='login__containter'>
-          <h1 className={classes.login__title}>Вход</h1>
+          <h1 className={classes.login__title}>{SIGN_IN_TITLE_TEXT}</h1>
           <form onSubmit={handleSubmit} className={classes.login__form}>
             <input
               type='email'
@@ -53,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
             />
             {/* <div> */}
             <button type='submit' className={classes.login__button}>
-              Войти
+              {SIGN_IN_BUTTON_TEXT}
             </button>
             {/* </div> */}
           </form>

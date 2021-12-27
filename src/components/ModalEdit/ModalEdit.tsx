@@ -6,7 +6,12 @@ import ModalWithForm from '../ModalWithForm/ModalWithForm';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { SAVE_BUTTON_TEXT } from '../../utils/constants';
+import {
+  EDIT_PROFILE_TEXT,
+  SAVE_BUTTON_TEXT,
+  YOUR_JOB_PLACEHOLDER,
+  YOUR_NAME_PLACEHOLDER,
+} from '../../utils/constants';
 
 interface ModalEditProps {
   isOpen: boolean;
@@ -14,18 +19,11 @@ interface ModalEditProps {
   onUpdateUser: (name: string, about: string) => void;
 }
 
-const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }): JSX.Element => {
+export const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }): JSX.Element => {
   const classes = useStyles();
   const currentUser = useContext(CurrentUserContext);
 
-  const {
-    values,
-    setValues,
-    errors,
-    isFormValid,
-    handleChange,
-    resetForm,
-  } = useFormWithValidation();
+  const { values, setValues, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent): void => {
     evt.preventDefault();
@@ -49,7 +47,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
   return (
     <ModalWithForm
       name='edit'
-      title='Редактировать профиль'
+      title={EDIT_PROFILE_TEXT}
       submitButtonText={SAVE_BUTTON_TEXT}
       isOpen={isOpen}
       onClose={onClose}
@@ -60,7 +58,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
         type='text'
         name='profileName'
         id='profile-name-input'
-        placeholder='Ваше имя'
+        placeholder={YOUR_NAME_PLACEHOLDER}
         className={classes.modal__input}
         required
         minLength={2}
@@ -82,7 +80,7 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
         type='text'
         name='profileAbout'
         id='profile-job-input'
-        placeholder='Ваша профессия'
+        placeholder={YOUR_JOB_PLACEHOLDER}
         className={classes.modal__input}
         required
         minLength={2}
@@ -102,5 +100,3 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
     </ModalWithForm>
   );
 };
-
-export default ModalEdit;
