@@ -1,15 +1,15 @@
 import React from 'react';
-// jss
-import useStyles from './loginStyles';
 // hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
-import { SIGN_IN_BUTTON_TEXT, SIGN_IN_TITLE_TEXT } from '../../utils/constants';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+import { useStyles } from './loginStyles';
+// constants
+import { SIGN_IN_BUTTON, SIGN_IN_TITLE } from '../../constants/text';
 
-interface LoginProps {
+type LoginProps = {
   onLogin: (email: string, password: string) => void;
-}
+};
 
-const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
+export const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
   const classes = useStyles();
 
   const {
@@ -26,15 +26,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
     if (!values.loginEmail || !values.loginPassword) return;
 
     onLogin(values.loginEmail, values.loginPassword);
-
-    // resetForm();
   };
 
   return (
     <>
       <div className={classes.login}>
         <div className='login__containter'>
-          <h1 className={classes.login__title}>{SIGN_IN_TITLE_TEXT}</h1>
+          <h1 className={classes.login__title}>{SIGN_IN_TITLE}</h1>
           <form onSubmit={handleSubmit} className={classes.login__form}>
             <input
               type='email'
@@ -52,16 +50,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
               value={values.loginPassword}
               onChange={handleChange}
             />
-            {/* <div> */}
             <button type='submit' className={classes.login__button}>
-              {SIGN_IN_BUTTON_TEXT}
+              {SIGN_IN_BUTTON}
             </button>
-            {/* </div> */}
           </form>
         </div>
       </div>
     </>
   );
 };
-
-export default Login;

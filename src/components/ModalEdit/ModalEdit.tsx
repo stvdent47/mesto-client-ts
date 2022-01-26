@@ -1,27 +1,24 @@
-import React, { useEffect, useContext } from 'react';
-import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
+import React, { useEffect } from 'react';
 // components
 import ModalWithForm from '../ModalWithForm/ModalWithForm';
 // hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
-// contexts
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import {
-  EDIT_PROFILE_TEXT,
-  SAVE_BUTTON_TEXT,
-  YOUR_JOB_PLACEHOLDER,
-  YOUR_NAME_PLACEHOLDER,
-} from '../../utils/constants';
+import { useActions } from '../../hooks/useActions';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+// constants
+import { EDIT_PROFILE_TITLE, SAVE_BUTTON, YOUR_JOB_PLACEHOLDER, YOUR_NAME_PLACEHOLDER } from '../../constants/text';
 
-interface ModalEditProps {
+type ModalEditProps = {
   isOpen: boolean;
-  onClose: () => void;
-  onUpdateUser: (name: string, about: string) => void;
-}
+  closeModal: () => void;
+};
 
-export const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }): JSX.Element => {
+export const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, closeModal }): JSX.Element => {
   const classes = useStyles();
-  const currentUser = useContext(CurrentUserContext);
+
+  const { user } = useTypedSelector((state) => state.user);
+  const { updateUser } = useActions();
 
   const { values, setValues, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
@@ -29,8 +26,9 @@ export const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateU
     evt.preventDefault();
 
     const { profileName, profileAbout } = values;
+    updateUser(profileName, profileAbout);
 
-    onUpdateUser(profileName, profileAbout);
+    closeModal();
   };
 
   useEffect(() => {
@@ -39,18 +37,18 @@ export const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateU
 
   useEffect(() => {
     setValues({
-      profileName: currentUser.name,
-      profileAbout: currentUser.about,
+      profileName: user.name,
+      profileAbout: user.about,
     });
-  }, [currentUser, isOpen]);
+  }, [user, isOpen]);
 
   return (
     <ModalWithForm
       name='edit'
-      title={EDIT_PROFILE_TEXT}
-      submitButtonText={SAVE_BUTTON_TEXT}
+      title={EDIT_PROFILE_TITLE}
+      submitButtonText={SAVE_BUTTON}
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={closeModal}
       onSubmit={handleSubmit}
       isFormValid={isFormValid}
     >

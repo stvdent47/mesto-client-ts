@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-interface ProtectedRouteProps {
+type ProtectedRouteProps = {
   component: any;
   isLoggedIn: boolean;
   path: string;
-}
+};
 
-const ProtectedRoute: React.FC<ProtectedRouteProps | any> = ({
+export const ProtectedRoute: React.FC<ProtectedRouteProps | any> = ({
   component: Component,
   isLoggedIn,
   path,
@@ -24,5 +24,3 @@ const ProtectedRoute: React.FC<ProtectedRouteProps | any> = ({
     </Route>
   );
 };
-
-export default ProtectedRoute;

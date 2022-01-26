@@ -1,47 +1,39 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// jss
-import useStyles from '../Login/loginStyles';
-// requests
-import handleRegister from '../../lib/requests/handleRegister';
-// hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
 // components
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
-import { IS_ALREADY_REGISTERED_TEXT, SIGN_IN_BUTTON_TEXT } from '../../utils/constants';
+// requests
+import { signUp } from '../../lib/requests/signUp';
+// hooks
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+import { useStyles } from '../Login/loginStyles';
+// constants
+import { IS_ALREADY_REGISTERED_TEXT, SIGN_IN_BUTTON, SIGN_UP_BUTTON, SIGN_UP_TITLE } from '../../constants/text';
 
-const Register: React.FC = (): JSX.Element => {
+export const Register: React.FC = React.memo((): JSX.Element => {
   const classes = useStyles();
   const history = useHistory();
 
-  const {
-    values,
-    // setValues,
-    errors,
-    // isFormValid,
-    handleChange,
-    resetForm,
-  } = useFormWithValidation();
+  const { values, errors, handleChange, resetForm } = useFormWithValidation();
 
   const [signUpResult, setSignUpResult] = useState<boolean>(false);
   const [isInfoTooltipOpen, setisInfoTooltipOpen] = useState<boolean>(false);
 
-  const onRegister = (evt: React.FormEvent): void => {
+  const onRegister = async (evt: React.FormEvent) => {
     evt.preventDefault();
 
-    handleRegister(values.registerEmail, values.registerPassword)
-      .then((res) => {
-        console.log(res);
-        setSignUpResult(true);
-        setisInfoTooltipOpen(true);
+    try {
+      await signUp(values.registerEmail, values.registerPassword);
 
-        resetForm();
-      })
-      .catch((err) => {
-        setSignUpResult(false);
-        setisInfoTooltipOpen(true);
-        console.error(err);
-      });
+      setSignUpResult(true);
+      setisInfoTooltipOpen(true);
+
+      resetForm();
+    } catch (err) {
+      setSignUpResult(false);
+      setisInfoTooltipOpen(true);
+      console.error({ err });
+    }
   };
 
   const closeInfoTooltipModal = (): void => {
@@ -53,7 +45,7 @@ const Register: React.FC = (): JSX.Element => {
     <>
       <div className={classes.login}>
         <div className='login__containter'>
-          <h1 className={classes.login__title}>Регистрация</h1>
+          <h1 className={classes.login__title}>{SIGN_UP_TITLE}</h1>
           <form onSubmit={onRegister} className={classes.login__form}>
             <input
               id='email'
@@ -76,7 +68,7 @@ const Register: React.FC = (): JSX.Element => {
             />
 
             <button type='submit' className={classes.login__button}>
-              Зарегистрироваться
+              {SIGN_UP_BUTTON}
             </button>
           </form>
         </div>
@@ -85,7 +77,7 @@ const Register: React.FC = (): JSX.Element => {
           <div className={classes['login__button-caption']}>
             <span>{IS_ALREADY_REGISTERED_TEXT}</span>
             <Link to='/sign-in' className={classes.login__link}>
-              {SIGN_IN_BUTTON_TEXT}
+              {SIGN_IN_BUTTON}
             </Link>
           </div>
         </div>
@@ -94,6 +86,4 @@ const Register: React.FC = (): JSX.Element => {
       <InfoTooltip signUpResult={signUpResult} isOpen={isInfoTooltipOpen} onClose={closeInfoTooltipModal} />
     </>
   );
-};
-
-export default Register;
+});

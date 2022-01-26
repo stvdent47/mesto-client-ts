@@ -1,37 +1,72 @@
-import React, { useEffect, useContext } from 'react';
-import useStyles from './mainStyles';
+import React, { useEffect, useState } from 'react';
 // components
-import { Footer } from '../Footer/Footer';
 import { Card } from '../Card/Card';
-// interfaces
-import { ICurrentUser } from '../../interfaces/ICurrentUser';
-// contexts
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import defaultAvatar from '../../images/profile-photo.jpg';
+import { Footer } from '../Footer/Footer';
+import { ModalAdd } from '../ModalAdd/ModalAdd';
+import { ModalAvatarUpdate } from '../ModalAvatarUpdate/ModalAvatarUpdate';
+import { ModalEdit } from '../ModalEdit/ModalEdit';
+import { ModalWithImage } from '../ModalWithImage/ModalWithImage';
+// hooks
 import { useActions } from '../../hooks/useActions';
+import { useStyles } from './mainStyles';
 import { useTypedSelector } from '../../hooks/useTypedSelector';
+// types
 import { CardType } from '../../types/card';
+import { OpenedModalsState } from '../../types/modals';
+// constants
+import { allModalsClosed, emptyCard } from '../../constants/vars';
+// etc
+import defaultAvatar from '../../images/profile-photo.jpg';
 
-interface MainProps {
-  isLoggedIn: boolean;
-  onProfileEdit: () => void;
-  onAvatarEdit: () => void;
-  onAddPlace: () => void;
-  onCardClick: (card: CardType) => void;
-}
-
-export const Main: React.FC<MainProps> = ({
-  isLoggedIn,
-  onProfileEdit,
-  onAvatarEdit,
-  onAddPlace,
-  onCardClick,
-}): JSX.Element => {
+export const Main: React.FC = (): JSX.Element => {
   const classes = useStyles();
-  const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
 
   const { fetchCards } = useActions();
-  const { cards } = useTypedSelector((state) => state.cards);
+
+  const {
+    cards: { cards },
+    user: { user, isLoggedIn },
+  } = useTypedSelector((state) => state);
+
+  const [openedModals, setOpenedModals] = useState<OpenedModalsState>(allModalsClosed);
+  const [selectedCard, setSelectedCard] = useState<CardType>(emptyCard);
+
+  const handleEditProfileClick = (): void => {
+    setOpenedModals((prevState) => ({
+      ...prevState,
+      userUpdate: true,
+    }));
+  };
+
+  const handleEditAvatarClick = (): void => {
+    setOpenedModals((prevState) => ({
+      ...prevState,
+      userUpdateAvatar: true,
+    }));
+  };
+
+  const handleAddPlaceClick = (): void => {
+    setOpenedModals((prevState) => ({
+      ...prevState,
+      addPlace: true,
+    }));
+  };
+
+  const handleCardClick = (card: CardType): void => {
+    setOpenedModals((prevState) => ({
+      ...prevState,
+      placeImage: true,
+    }));
+    setSelectedCard(card);
+  };
+  const handleModalWithImageClose = (): void => {
+    closeAllModals();
+    setSelectedCard(emptyCard);
+  };
+
+  const closeAllModals = (): void => {
+    setOpenedModals(allModalsClosed);
+  };
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -39,40 +74,63 @@ export const Main: React.FC<MainProps> = ({
     }
   }, [isLoggedIn]);
 
+  const closeModalByEscape = (evt: KeyboardEvent): void => {
+    evt.key === 'Escape' && closeAllModals();
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', closeModalByEscape);
+    return () => {
+      document.removeEventListener('keydown', closeModalByEscape);
+    };
+  }, []);
+
   return (
     <>
       <main className={classes.main}>
+        {/* TODO — separate component */}
         <section className={classes.profile}>
-          <div className={classes.profile__photoContainer} onClick={onAvatarEdit}>
-            <img src={currentUser.avatar || defaultAvatar} alt='фото профиля' className={classes.profile__photo} />
+          <div className={classes.profile__photoContainer} onClick={handleEditAvatarClick}>
+            <img src={user.avatar || defaultAvatar} alt='фото профиля' className={classes.profile__photo} />
           </div>
 
           <div className={classes.profile__info}>
             <div className={classes.profile__title}>
-              <h1 className={classes.profile__name}>{currentUser.name || '...'}</h1>
+              <h1 className={classes.profile__name}>{user.name || '...'}</h1>
               <button
                 className={classes.profile__editButton}
                 type='button'
                 aria-label='Редактировать'
-                onClick={onProfileEdit}
+                onClick={handleEditProfileClick}
               />
             </div>
 
-            <p className={classes.profile__description}>{currentUser.about || '...'}</p>
+            <p className={classes.profile__description}>{user.about || '...'}</p>
           </div>
 
-          <button className={classes.profile__addButton} type='button' aria-label='Добавить' onClick={onAddPlace} />
+          <button
+            className={classes.profile__addButton}
+            type='button'
+            aria-label='Добавить'
+            onClick={handleAddPlaceClick}
+          />
         </section>
-
+        {/* TODO — separate component */}
         <section className={classes.photoElements}>
           <ul className={classes.photoElements__list}>
             {cards.map((card: CardType) => (
-              <Card card={card} key={card._id} onCardClick={onCardClick} />
+              <Card card={card} key={card._id} onCardClick={handleCardClick} />
             ))}
           </ul>
         </section>
       </main>
       <Footer />
+
+      <ModalEdit isOpen={openedModals.userUpdate} closeModal={closeAllModals} />
+      <ModalAvatarUpdate isOpen={openedModals.userUpdateAvatar} closeModal={closeAllModals} />
+      <ModalAdd isOpen={openedModals.addPlace} onClose={closeAllModals} />
+
+      <ModalWithImage isOpen={openedModals.placeImage} card={selectedCard} onClose={handleModalWithImageClose} />
     </>
   );
 };

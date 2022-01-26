@@ -26,10 +26,8 @@ const navBarStyles = {
     navbar__link: {
       fontSize: '14px',
       lineHeight: '17px',
-    }
-  }
+    },
+  },
 };
 
-const useStyles = createUseStyles(navBarStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(navBarStyles);

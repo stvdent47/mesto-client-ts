@@ -1,13 +1,14 @@
 import React from 'react';
-import { CardType } from '../../types/card';
+// hooks
 import useStyles from './modalWithImageStyles';
-// import './ModalWithImage.css';
+// types
+import { CardType } from '../../types/card';
 
-interface ModalWithImageProps {
+type ModalWithImageProps = {
   isOpen: boolean;
   card: CardType;
   onClose: () => void;
-}
+};
 
 export const ModalWithImage: React.FC<ModalWithImageProps> = ({ isOpen, card, onClose }): JSX.Element => {
   const classes = useStyles({ isOpen });
@@ -24,5 +25,3 @@ export const ModalWithImage: React.FC<ModalWithImageProps> = ({ isOpen, card, on
     </div>
   );
 };
-
-export default ModalWithImage;

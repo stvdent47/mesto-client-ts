@@ -1,54 +1,54 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-// styles
-import useStyles from './navbarStyles';
 import clsx from 'clsx';
-// contexts
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { ICurrentUser } from '../../interfaces/ICurrentUser';
-import { SIGN_IN_BUTTON_TEXT, SIGN_OUT_BUTTON_TEXT } from '../../utils/constants';
+// hooks
+import { useActions } from '../../hooks/useActions';
+import { useStyles } from './navbarStyles';
+import { useTypedSelector } from '../../hooks/useTypedSelector';
+// constants
+import { JWT_TOKEN_KEY } from '../../constants/defaults';
+import { SIGN_IN_BUTTON, SIGN_OUT_BUTTON, SIGN_UP_BUTTON } from '../../constants/text';
 
-interface NavBarProps {
-  isLoggedIn: boolean;
-  onSignOut: () => void;
-}
-
-const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }): JSX.Element => {
+export const NavBar: React.FC = React.memo((): JSX.Element => {
   const classes = useStyles();
   const location = useLocation();
 
-  const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
+  const { user, isLoggedIn } = useTypedSelector((state) => state.user);
+  const { setIsLoggedIn } = useActions();
+
+  const handleSignOut = (): void => {
+    localStorage.removeItem(JWT_TOKEN_KEY);
+    setIsLoggedIn(false);
+  };
 
   return (
     <nav className={classes.navbar}>
       <ul className={classes['navbar__list']}>
         {isLoggedIn && (
           <>
-            <li className={classes['navbar__list-item']}>{currentUser.email}</li>
+            <li className={classes['navbar__list-item']}>{user.email}</li>
             <li className={classes['navbar__list-item']}>
               <Link
                 to='/sign-in'
                 className={clsx(classes.navbar__link, classes['navbar__link-signout'])}
-                onClick={onSignOut}
+                onClick={handleSignOut}
               >
-                {SIGN_OUT_BUTTON_TEXT}
+                {SIGN_OUT_BUTTON}
               </Link>
             </li>
           </>
         )}
         {!isLoggedIn && location.pathname === '/sign-in' && (
           <Link to='/sign-up' className={classes.navbar__link}>
-            Регистрация
+            {SIGN_UP_BUTTON}
           </Link>
         )}
         {!isLoggedIn && location.pathname === '/sign-up' && (
           <Link to='/sign-in' className={classes.navbar__link}>
-            {SIGN_IN_BUTTON_TEXT}
+            {SIGN_IN_BUTTON}
           </Link>
         )}
       </ul>
     </nav>
   );
-};
-
-export default NavBar;
+});

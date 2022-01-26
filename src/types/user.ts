@@ -1,8 +1,9 @@
 export enum UserActionTypes {
-  USER_FETCH = 'USER_FETCH',
-  USER_FETCH_SUCCESS = 'USER_FETCH_SUCCESS',
+  USER_FETCHING = 'USER_FETCHING',
+  USER_SET_INFO = 'USER_SET_INFO',
   USER_FETCH_ERROR = 'USER_FETCH_ERROR',
   USER_SET_LOGGED_IN = 'USER_SET_LOGGED_IN',
+  USER_UPDATE_INFO = 'USER_UPDATE_INFO',
 }
 
 export type User = {
@@ -29,11 +30,11 @@ export const emptyUser: User = {
 };
 
 export type UserFetch = {
-  type: UserActionTypes.USER_FETCH;
+  type: UserActionTypes.USER_FETCHING;
 };
 
 export type UserFetchSuccess = {
-  type: UserActionTypes.USER_FETCH_SUCCESS;
+  type: UserActionTypes.USER_SET_INFO;
   payload: User;
 };
 
@@ -47,4 +48,9 @@ export type UserSetLoggedIn = {
   paylaod: boolean;
 };
 
-export type UserAction = UserFetch | UserFetchSuccess | UserFetchError | UserSetLoggedIn;
+export type UserUpdateInfo = {
+  type: UserActionTypes.USER_UPDATE_INFO;
+  payload: User;
+};
+
+export type UserAction = UserFetch | UserFetchSuccess | UserFetchError | UserSetLoggedIn | UserUpdateInfo;

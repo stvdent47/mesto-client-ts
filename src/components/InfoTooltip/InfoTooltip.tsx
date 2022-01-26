@@ -1,6 +1,7 @@
 import React from 'react';
+// hooks
 import useStyles from './infoTooltipStyles';
-// import './InfoTooltip.css';
+// etc.
 import signUpResultSuccessImg from '../../images/signup-modal-result-success.svg';
 import signUpResultFailImg from '../../images/signup-modal-result-fail.svg';
 
@@ -10,13 +11,8 @@ interface InfoTooltipProps {
   onClose: () => void;
 }
 
-const InfoTooltip: React.FC<InfoTooltipProps> = ({
-  signUpResult,
-  isOpen,
-  onClose,
-}: InfoTooltipProps): JSX.Element => {
+const InfoTooltip: React.FC<InfoTooltipProps> = ({ signUpResult, isOpen, onClose }: InfoTooltipProps): JSX.Element => {
   const classes = useStyles({ isOpen });
-  console.log({ isOpen });
 
   let resultText: string;
   let resultImg: string;
@@ -30,7 +26,6 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
   }
 
   return (
-    // <div className={`signup-modal ${isOpen ? 'signup-modal_opened' : ''}`}>
     <div className={classes.signupModal}>
       <div className={classes.signupModal__container}>
         <img src={resultImg} alt='картинка результата' className={classes.signupModal__img} />

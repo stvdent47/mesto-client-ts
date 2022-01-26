@@ -143,5 +143,4 @@ const mainStyles = {
   },
 };
 
-const useStyles = createUseStyles(mainStyles);
-export default useStyles;
+export const useStyles = createUseStyles(mainStyles);

@@ -37,6 +37,4 @@ const modalWithFormChildrenStyles = {
   },
 };
 
-const useStyles = createUseStyles(modalWithFormChildrenStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(modalWithFormChildrenStyles);

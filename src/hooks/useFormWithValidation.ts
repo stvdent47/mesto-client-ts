@@ -1,19 +1,12 @@
 import { useState, useCallback } from 'react';
 
-interface ITextInputState {
+type TextInputState = {
   [key: string]: string;
-}
+}; // <Record>?
 
-// interface IUseForm {
-//   values: ITextInputState;
-//   errors: ITextInputState;
-//   isFormValid: boolean;
-//   handleChange: () => void;
-// }
-
-const useFormWithValidation = () => {
-  const [values, setValues] = useState<ITextInputState>({});
-  const [errors, setErrors] = useState<ITextInputState>({});
+export const useFormWithValidation = () => {
+  const [values, setValues] = useState<TextInputState>({});
+  const [errors, setErrors] = useState<TextInputState>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,5 +27,3 @@ const useFormWithValidation = () => {
 
   return { values, setValues, errors, isFormValid, handleChange, resetForm };
 };
-
-export default useFormWithValidation;
