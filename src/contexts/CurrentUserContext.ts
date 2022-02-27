@@ -1,4 +1,5 @@
 import { createContext } from 'react';
-import { ICurrentUser, emptyUser } from '../interfaces/ICurrentUser';
+import { initialUser } from '../constants/default';
+import { UserDto } from '../types/UserTypes';
 
-export const CurrentUserContext = createContext<ICurrentUser>(emptyUser);
+export const CurrentUserContext = createContext<UserDto>(initialUser);

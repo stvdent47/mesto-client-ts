@@ -1,6 +1,6 @@
 import React from 'react';
-import useStyles from './headerStyles';
-import NavBar from '../NavBar/NavBar';
+import { NavBar } from '../NavBar/NavBar';
+import { useStyles } from './headerStyles';
 
 import logo from '../../images/logo.svg';
 
@@ -9,7 +9,7 @@ interface HeaderProps {
   onSignOut: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ isLoggedIn, onSignOut }): JSX.Element => {
+export const Header: React.FC<HeaderProps> = React.memo(({ isLoggedIn, onSignOut }): JSX.Element => {
   const classes = useStyles();
 
   return (
@@ -18,6 +18,4 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn, onSignOut }): JSX.Element =
       <NavBar isLoggedIn={isLoggedIn} onSignOut={onSignOut} />
     </header>
   );
-};
-
-export default Header;
+});

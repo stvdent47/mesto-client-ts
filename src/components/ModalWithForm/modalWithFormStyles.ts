@@ -125,6 +125,4 @@ const modalWithFormStyles = {
   },
 };
 
-const useStyles = createUseStyles(modalWithFormStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(modalWithFormStyles);

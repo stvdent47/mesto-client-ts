@@ -10,13 +10,8 @@ interface InfoTooltipProps {
   onClose: () => void;
 }
 
-const InfoTooltip: React.FC<InfoTooltipProps> = ({
-  signUpResult,
-  isOpen,
-  onClose,
-}: InfoTooltipProps): JSX.Element => {
+export const InfoTooltip = React.memo(({ signUpResult, isOpen, onClose }: InfoTooltipProps): JSX.Element => {
   const classes = useStyles({ isOpen });
-  console.log({ isOpen });
 
   let resultText: string;
   let resultImg: string;
@@ -30,7 +25,6 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
   }
 
   return (
-    // <div className={`signup-modal ${isOpen ? 'signup-modal_opened' : ''}`}>
     <div className={classes.signupModal}>
       <div className={classes.signupModal__container}>
         <img src={resultImg} alt='картинка результата' className={classes.signupModal__img} />
@@ -39,6 +33,4 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({
       </div>
     </div>
   );
-};
-
-export default React.memo(InfoTooltip);
+});

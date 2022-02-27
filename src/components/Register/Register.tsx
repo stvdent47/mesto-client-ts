@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 // jss
-import useStyles from '../Login/loginStyles';
+import { useStyles } from '../Login/loginStyles';
 // requests
 import handleRegister from '../../lib/requests/handleRegister';
 // hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 // components
-import InfoTooltip from '../InfoTooltip/InfoTooltip';
+import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 
 const Register: React.FC = (): JSX.Element => {
   const classes = useStyles();
@@ -90,11 +90,7 @@ const Register: React.FC = (): JSX.Element => {
         </div>
       </div>
 
-      <InfoTooltip
-        signUpResult={signUpResult}
-        isOpen={isInfoTooltipOpen}
-        onClose={closeInfoTooltipModal}
-      />
+      <InfoTooltip signUpResult={signUpResult} isOpen={isInfoTooltipOpen} onClose={closeInfoTooltipModal} />
     </>
   );
 };

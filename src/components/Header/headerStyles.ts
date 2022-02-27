@@ -35,6 +35,4 @@ const headerStyles = {
   },
 };
 
-const useStyles = createUseStyles(headerStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(headerStyles);

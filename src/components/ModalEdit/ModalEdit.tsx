@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from 'react';
-import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
+import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
 // components
-import ModalWithForm from '../ModalWithForm/ModalWithForm';
+import { ModalWithForm } from '../ModalWithForm/ModalWithForm';
 // hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { SAVE_BUTTON_TEXT } from '../../utils/constants';
@@ -14,18 +14,11 @@ interface ModalEditProps {
   onUpdateUser: (name: string, about: string) => void;
 }
 
-const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }): JSX.Element => {
+export const ModalEdit = ({ isOpen, onClose, onUpdateUser }: ModalEditProps): JSX.Element => {
   const classes = useStyles();
   const currentUser = useContext(CurrentUserContext);
 
-  const {
-    values,
-    setValues,
-    errors,
-    isFormValid,
-    handleChange,
-    resetForm,
-  } = useFormWithValidation();
+  const { values, setValues, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent): void => {
     evt.preventDefault();
@@ -102,5 +95,3 @@ const ModalEdit: React.FC<ModalEditProps> = ({ isOpen, onClose, onUpdateUser }):
     </ModalWithForm>
   );
 };
-
-export default ModalEdit;

@@ -103,6 +103,4 @@ const cardStyles = {
   },
 };
 
-const useStyles = createUseStyles(cardStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(cardStyles);

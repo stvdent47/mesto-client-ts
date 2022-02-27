@@ -15,7 +15,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps | any> = ({
 }: ProtectedRouteProps) => {
   return (
     <Route exact path={path}>
-      {() => (isLoggedIn ? <Component {...rest} /> : <Redirect to='/sign-in' />)}
+      {() => (isLoggedIn ? <Component {...rest} isLoggedIn={isLoggedIn} /> : <Redirect to='/sign-in' />)}
     </Route>
   );
 };

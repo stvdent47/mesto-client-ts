@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
+import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
 // components
-import ModalWithForm from '../ModalWithForm/ModalWithForm';
+import { ModalWithForm } from '../ModalWithForm/ModalWithForm';
 // hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 import { SAVE_BUTTON_TEXT } from '../../utils/constants';
 
@@ -12,11 +12,7 @@ interface ModalAvatarUpdateProps {
   onClose: () => void;
   onAvatarUpdate: (avatarUrl: string, resetForm: () => void) => void;
 }
-const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({
-  isOpen,
-  onClose,
-  onAvatarUpdate,
-}): JSX.Element => {
+export const ModalAvatarUpdate = ({ isOpen, onClose, onAvatarUpdate }: ModalAvatarUpdateProps): JSX.Element => {
   const classes = useStyles();
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
@@ -61,5 +57,3 @@ const ModalAvatarUpdate: React.FC<ModalAvatarUpdateProps> = ({
     </ModalWithForm>
   );
 };
-
-export default ModalAvatarUpdate;

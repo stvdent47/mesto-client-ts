@@ -1,10 +1,10 @@
 import env from 'react-dotenv';
-import { ICurrentUser } from '../../interfaces/ICurrentUser';
+import { UserDto } from '../../types/UserTypes';
 import checkErrors from '../../lib/checkErrors';
 
 const { API_URL } = env;
 
-interface ICurrentUserWithToken extends ICurrentUser {
+interface ICurrentUserWithToken extends UserDto {
   token: string;
   id: string;
 }

@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react';
-import ModalWithForm from '../ModalWithForm/ModalWithForm';
-import useStyles from '../ModalWithForm/modalWithFormChildrenStyles';
-//
-import useFormWithValidation from '../../hooks/useFormWithValidation';
-//
+// components
+import { ModalWithForm } from '../ModalWithForm/ModalWithForm';
+// hooks
+import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+// constants
 import { SAVE_BUTTON_TEXT } from '../../utils/constants';
 
-interface ModalAddProps {
+type ModalAddProps = {
   isOpen: boolean;
   onClose: () => void;
-  onAddPlace: (name: string, link: string, resetFormCb: () => void) => void;
-}
 
-const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX.Element => {
+  createCard: (name: string, link: string) => void;
+};
+
+export const ModalAdd = ({ isOpen, onClose, createCard }: ModalAddProps): JSX.Element => {
   const classes = useStyles();
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
 
-    const { placeName, placeLink } = values;
+    const { placeName: name, placeLink: link } = values;
 
-    onAddPlace(placeName, placeLink, resetForm);
+    createCard(name, link);
+    onClose();
   };
 
   useEffect(() => {
@@ -81,5 +84,3 @@ const ModalAdd: React.FC<ModalAddProps> = ({ isOpen, onClose, onAddPlace }): JSX
     </ModalWithForm>
   );
 };
-
-export default ModalAdd;

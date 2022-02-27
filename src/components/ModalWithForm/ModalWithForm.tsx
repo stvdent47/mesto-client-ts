@@ -1,5 +1,5 @@
 import React from 'react';
-import useStyles from './modalWithFormStyles';
+import { useStyles } from './modalWithFormStyles';
 
 interface ModalWithFormProps {
   name: string;
@@ -12,7 +12,7 @@ interface ModalWithFormProps {
   isFormValid: boolean;
 }
 
-const ModalWithForm: React.FC<ModalWithFormProps> = ({
+export const ModalWithForm = ({
   name,
   title,
   submitButtonText,
@@ -21,7 +21,7 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
   onSubmit,
   isFormValid,
   children,
-}): JSX.Element => {
+}: ModalWithFormProps): JSX.Element => {
   const classes = useStyles({ isOpen, isFormValid });
 
   return (
@@ -38,24 +38,13 @@ const ModalWithForm: React.FC<ModalWithFormProps> = ({
           noValidate
         >
           {children}
-          <button
-            type='submit'
-            className={classes.modal__button}
-            disabled={!isFormValid}
-          >
+          <button type='submit' className={classes.modal__button} disabled={!isFormValid}>
             {submitButtonText}
           </button>
         </form>
 
-        <button
-          className={classes['modal__close-button']}
-          type='button'
-          aria-label='Закрыть'
-          onClick={onClose}
-        />
+        <button className={classes['modal__close-button']} type='button' aria-label='Закрыть' onClick={onClose} />
       </div>
     </div>
   );
 };
-
-export default ModalWithForm;

@@ -11,7 +11,7 @@ interface ITextInputState {
 //   handleChange: () => void;
 // }
 
-const useFormWithValidation = () => {
+export const useFormWithValidation = () => {
   const [values, setValues] = useState<ITextInputState>({});
   const [errors, setErrors] = useState<ITextInputState>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
@@ -34,5 +34,3 @@ const useFormWithValidation = () => {
 
   return { values, setValues, errors, isFormValid, handleChange, resetForm };
 };
-
-export default useFormWithValidation;

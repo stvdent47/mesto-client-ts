@@ -1,10 +1,10 @@
 import env from 'react-dotenv';
+import { UserDto } from '../../types/UserTypes';
 import checkErrors from '../checkErrors';
-import { ICurrentUser } from '../../interfaces/ICurrentUser';
 
 const { API_URL } = env;
 
-const getCurrentUserInfo = (token: string): Promise<ICurrentUser> => {
+const getCurrentUserInfo = (token: string): Promise<UserDto> => {
   return fetch(`${API_URL}/users/me`, {
     method: 'GET',
     headers: {

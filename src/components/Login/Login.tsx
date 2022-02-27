@@ -1,14 +1,14 @@
 import React from 'react';
 // jss
-import useStyles from './loginStyles';
+import { useStyles } from './loginStyles';
 // hooks
-import useFormWithValidation from '../../hooks/useFormWithValidation';
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 
 interface LoginProps {
   onLogin: (email: string, password: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
+export const Login = React.memo(({ onLogin }: LoginProps): JSX.Element => {
   const classes = useStyles();
 
   const {
@@ -51,16 +51,12 @@ const Login: React.FC<LoginProps> = ({ onLogin }): JSX.Element => {
               value={values.loginPassword}
               onChange={handleChange}
             />
-            {/* <div> */}
             <button type='submit' className={classes.login__button}>
               Войти
             </button>
-            {/* </div> */}
           </form>
         </div>
       </div>
     </>
   );
-};
-
-export default Login;
+});

@@ -1,22 +1,22 @@
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 // styles
-import useStyles from './navbarStyles';
 import clsx from 'clsx';
+import { useStyles } from './navbarStyles';
 // contexts
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { ICurrentUser } from '../../interfaces/ICurrentUser';
+import { UserDto } from '../../types/UserTypes';
 
 interface NavBarProps {
   isLoggedIn: boolean;
   onSignOut: () => void;
 }
 
-const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }): JSX.Element => {
+export const NavBar: React.FC<NavBarProps> = React.memo(({ isLoggedIn, onSignOut }): JSX.Element => {
   const classes = useStyles();
   const location = useLocation();
 
-  const currentUser: ICurrentUser = useContext<ICurrentUser>(CurrentUserContext);
+  const currentUser: UserDto = useContext<UserDto>(CurrentUserContext);
 
   return (
     <nav className={classes.navbar}>
@@ -48,6 +48,4 @@ const NavBar: React.FC<NavBarProps> = ({ isLoggedIn, onSignOut }): JSX.Element =
       </ul>
     </nav>
   );
-};
-
-export default NavBar;
+});

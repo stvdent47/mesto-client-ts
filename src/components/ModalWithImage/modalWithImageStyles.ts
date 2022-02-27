@@ -70,6 +70,4 @@ const modalWithImageStyles = {
   },
 };
 
-const useStyles = createUseStyles(modalWithImageStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(modalWithImageStyles);

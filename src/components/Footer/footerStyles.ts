@@ -36,6 +36,4 @@ const footerStyles = {
   },
 };
 
-const useStyles = createUseStyles(footerStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(footerStyles);

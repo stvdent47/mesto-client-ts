@@ -22,7 +22,7 @@ const loginStyles = {
   login__form: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   login__input: {
     width: 358,
@@ -84,6 +84,4 @@ const loginStyles = {
   },
 };
 
-const useStyles = createUseStyles(loginStyles);
-
-export default useStyles;
+export const useStyles = createUseStyles(loginStyles);
