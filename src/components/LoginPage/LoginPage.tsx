@@ -1,14 +1,16 @@
 import React from 'react';
-// jss
-import { useStyles } from './loginStyles';
+// styles
+import { useStyles } from './loginPageStyles';
 // hooks
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+// constants
+import { SIGN_IN } from '../../constants/buttons';
 
-interface LoginProps {
-  onLogin: (email: string, password: string) => void;
-}
+type LoginPageProps = {
+  login?: (email: string, password: string) => void;
+};
 
-export const Login = React.memo(({ onLogin }: LoginProps): JSX.Element => {
+export const LoginPage = React.memo(({ login }: LoginPageProps): JSX.Element => {
   const classes = useStyles();
 
   const {
@@ -24,8 +26,7 @@ export const Login = React.memo(({ onLogin }: LoginProps): JSX.Element => {
     evt.preventDefault();
     if (!values.loginEmail || !values.loginPassword) return;
 
-    onLogin(values.loginEmail, values.loginPassword);
-
+    login?.(values.loginEmail, values.loginPassword);
     // resetForm();
   };
 
@@ -40,7 +41,7 @@ export const Login = React.memo(({ onLogin }: LoginProps): JSX.Element => {
               name='loginEmail'
               className={classes.login__input}
               placeholder='Email'
-              value={values.loginEmail}
+              value={values.loginEmail || ''}
               onChange={handleChange}
             />
             <input
@@ -48,11 +49,11 @@ export const Login = React.memo(({ onLogin }: LoginProps): JSX.Element => {
               name='loginPassword'
               className={classes.login__input}
               placeholder='Пароль'
-              value={values.loginPassword}
+              value={values.loginPassword || ''}
               onChange={handleChange}
             />
             <button type='submit' className={classes.login__button}>
-              Войти
+              {SIGN_IN}
             </button>
           </form>
         </div>

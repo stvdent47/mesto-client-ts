@@ -1,8 +1,11 @@
+// redux
 import { connect } from 'react-redux';
 import { AppDispatch } from '../../redux';
 import { RootState } from '../../redux/reducers';
+// components
+import { MainPage as MainPageView } from './MainPage';
+// types
 import { CardActionTypes } from '../../types/CardTypes';
-import { Main as MainView } from './Main';
 
 const mapStateToProps = (state: RootState) => ({
   cards: state.cardReducer.cards,
@@ -14,4 +17,4 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
   fetchCards: () => dispatch({ type: CardActionTypes.FETCH_CARDS }),
 });
 
-export const Main = connect(mapStateToProps, mapDispatchToProps)(MainView);
+export const MainPage = connect(mapStateToProps, mapDispatchToProps)(MainPageView);

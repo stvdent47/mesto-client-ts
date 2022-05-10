@@ -1,147 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, useHistory } from 'react-router-dom';
 // components
-import { Header } from '../Header/Header';
-import { Main } from '../Main';
+import { Header } from '../Header';
+import { MainPage } from '../MainPage';
+import { LoginPage } from '../LoginPage';
+import { RegisterPage } from '../RegisterPage';
 import ProtectedRoute from '../../hocs/ProtectedRoute';
 // types
-import { User } from '../../types/UserTypes';
-import { initialUser } from '../../constants/default';
-// requests
-import getCurrentUserInfo from '../../lib/requests/getCurrentUserInfo';
-import updateUser from '../../lib/requests/updateUser';
-import updateUserAvatar from '../../lib/requests/updateUserAvatar';
-import authorize from '../../lib/requests/authorize';
-// contexts
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { Login } from '../Login/Login';
-import Register from '../Register/Register';
+import { UserActionTypes } from '../../types/UserTypes';
+// hooks
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
 
 export const App: React.FC = (): JSX.Element => {
+  const { user, isLoggedIn: isLoggedIn } = useAppSelector((state) => state.userReducer);
+
+  const dispatch = useAppDispatch();
+
   const history = useHistory();
-
-  const [currentUser, setCurrentUser] = useState<User>(initialUser);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleUpdateUser = (name: string, about: string): void => {
-    updateUser(name, about)
-      .then((user) => {
-        const { name, about } = user;
-        setCurrentUser((prevState) => ({ ...prevState, name, about }));
-        // closeAllModals();
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const handleUpdateAvatar = (avatarUrl: string, resetFormCb: () => void): void => {
-    updateUserAvatar(avatarUrl)
-      .then((res) => {
-        setCurrentUser((prevState) => ({ ...prevState, avatar: res.avatar }));
-        // closeAllModals();
-        resetFormCb();
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const handleLogin = (email: string, password: string): void => {
-    authorize(email, password)
-      .then((user) => {
-        const { name, email, avatar, about, id, token } = user;
-        if (token) {
-          localStorage.setItem('jwt', token);
-          setCurrentUser((prevState) => ({
-            ...prevState,
-            name,
-            email,
-            avatar,
-            about,
-            _id: id,
-          }));
-          tokenCheck();
-        }
-      })
-      .catch((err) => console.error(err));
-  };
-
-  const handleSignOut = (): void => {
-    localStorage.removeItem('jwt');
-    setIsLoggedIn(false);
-  };
 
   const tokenCheck = (): void => {
     const jwt = localStorage.getItem('jwt');
 
     if (jwt) {
-      getCurrentUserInfo(jwt)
-        .then((user) => {
-          if (user) {
-            const { name, email, avatar, about, _id } = user;
-            setCurrentUser((prevState) => ({
-              ...prevState,
-              name,
-              email,
-              avatar,
-              about,
-              _id,
-            }));
-            setIsLoggedIn(true);
-            history.push('/feed');
-          }
-        })
-        .catch((err) => console.error(err));
+      dispatch({ type: UserActionTypes.FETCH_CURRENT_USER, payload: { jwt } });
+
+      if (user) {
+        history.push('/feed');
+      }
     }
   };
 
   useEffect(() => {
     tokenCheck();
-  }, []);
-
-  // useEffect(() => {
-  //   if (isLoggedIn)
-  //     getCards()
-  //       .then((cards) => {
-  //         setCards(cards.reverse());
-  //       })
-  //       .catch((err) => console.error(err));
-  // }, [isLoggedIn]);
+  }, [isLoggedIn]);
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <Header isLoggedIn={isLoggedIn} onSignOut={handleSignOut} />
+    <>
+      <Header />
       <Switch>
         <Route exact path='/sign-in'>
-          <Login onLogin={handleLogin} />
+          <LoginPage />
         </Route>
         <Route exact path='/sign-up'>
-          <Register />
+          <RegisterPage />
         </Route>
-        <ProtectedRoute
-          path='/feed'
-          component={Main}
-          isLoggedIn={isLoggedIn}
-          // cards={cards}
-          // onProfileEdit={handleEditProfileClick}
-          // onAvatarEdit={handleEditAvatarClick}
-          // onAddPlace={handleAddPlaceClick}
-          // onCardClick={handleCardClick}
-          handleUpdateUser={handleUpdateUser}
-          handleUpdateAvatar={handleUpdateAvatar}
-        />
+        <ProtectedRoute path='/feed' component={MainPage} isLoggedIn={isLoggedIn} />
       </Switch>
-
-      {/* <div className='modal remove-card-modal'>
-        <div className='modal__container'>
-          <h2 className='modal__title modal__title_type_remove'>Вы уверены?</h2>
-
-          <form action='#' name='form-add-modal' className='modal__form' method='POST' noValidate>
-            <button type='submit' className='modal__button modal__button_type_remove'>
-              Да
-            </button>
-          </form>
-
-          <button className='modal__close-button' type='button' aria-label='Закрыть'></button>
-        </div>
-      </div> */}
-    </CurrentUserContext.Provider>
+    </>
   );
 };

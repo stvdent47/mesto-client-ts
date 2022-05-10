@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
-import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
 // components
 import { ModalWithForm } from '../ModalWithForm/ModalWithForm';
 // hooks
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
-
+// constants
 import { SAVE_BUTTON_TEXT } from '../../utils/constants';
+// styles
+import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
 
-interface ModalAvatarUpdateProps {
+type ModalAvatarUpdateProps = {
   isOpen: boolean;
   onClose: () => void;
-  onAvatarUpdate: (avatarUrl: string, resetForm: () => void) => void;
-}
-export const ModalAvatarUpdate = ({ isOpen, onClose, onAvatarUpdate }: ModalAvatarUpdateProps): JSX.Element => {
+  updateAvatar?: (avatarUrl: string) => void;
+};
+export const ModalAvatarUpdate = ({ isOpen, onClose, updateAvatar }: ModalAvatarUpdateProps): JSX.Element => {
   const classes = useStyles();
   const { values, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
   const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
 
-    onAvatarUpdate(values.avatarUrl, resetForm);
+    updateAvatar?.(values.avatarUrl);
   };
 
   useEffect(() => {

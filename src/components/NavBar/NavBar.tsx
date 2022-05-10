@@ -1,27 +1,32 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+// types
+import { User } from '../../types/UserTypes';
+// constants
+import { SIGN_IN, SIGN_OUT, SIGNING_UP } from '../../constants/buttons';
 // styles
 import clsx from 'clsx';
 import { useStyles } from './navbarStyles';
-// contexts
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import { UserDto } from '../../types/UserTypes';
 
-interface NavBarProps {
-  isLoggedIn: boolean;
-  onSignOut: () => void;
-}
+type NavBarProps = {
+  isLoggedIn?: boolean;
+  handleSignOut: () => void;
+  currentUser: User;
+};
 
-export const NavBar: React.FC<NavBarProps> = React.memo(({ isLoggedIn, onSignOut }): JSX.Element => {
+export const NavBar = React.memo(({ isLoggedIn, handleSignOut, currentUser }: NavBarProps): JSX.Element => {
   const classes = useStyles();
   const location = useLocation();
 
-  const currentUser: UserDto = useContext<UserDto>(CurrentUserContext);
+  const onSignOut = (): void => {
+    localStorage.removeItem('jwt');
+    handleSignOut();
+  };
 
   return (
     <nav className={classes.navbar}>
       <ul className={classes['navbar__list']}>
-        {isLoggedIn && (
+        {isLoggedIn ? (
           <>
             <li className={classes['navbar__list-item']}>{currentUser.email}</li>
             <li className={classes['navbar__list-item']}>
@@ -30,19 +35,17 @@ export const NavBar: React.FC<NavBarProps> = React.memo(({ isLoggedIn, onSignOut
                 className={clsx(classes.navbar__link, classes['navbar__link-signout'])}
                 onClick={onSignOut}
               >
-                Выйти
+                {SIGN_OUT}
               </Link>
             </li>
           </>
-        )}
-        {!isLoggedIn && location.pathname === '/sign-in' && (
+        ) : location.pathname === '/sign-in' ? (
           <Link to='/sign-up' className={classes.navbar__link}>
-            Регистрация
+            {SIGNING_UP}
           </Link>
-        )}
-        {!isLoggedIn && location.pathname === '/sign-up' && (
+        ) : (
           <Link to='/sign-in' className={classes.navbar__link}>
-            Войти
+            {SIGN_IN}
           </Link>
         )}
       </ul>

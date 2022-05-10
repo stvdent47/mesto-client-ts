@@ -1,21 +1,18 @@
 import React from 'react';
-import { NavBar } from '../NavBar/NavBar';
+// components
+import { NavBar } from '../NavBar';
+// styles
 import { useStyles } from './headerStyles';
 
 import logo from '../../images/logo.svg';
 
-interface HeaderProps {
-  isLoggedIn: boolean;
-  onSignOut: () => void;
-}
-
-export const Header: React.FC<HeaderProps> = React.memo(({ isLoggedIn, onSignOut }): JSX.Element => {
+export const Header: React.FC = React.memo((): JSX.Element => {
   const classes = useStyles();
 
   return (
     <header className={classes.header}>
       <img src={logo} alt='логотип место' className={classes.header__logo} />
-      <NavBar isLoggedIn={isLoggedIn} onSignOut={onSignOut} />
+      <NavBar />
     </header>
   );
 });

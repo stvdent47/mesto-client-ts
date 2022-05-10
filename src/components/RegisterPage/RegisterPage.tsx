@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-// jss
-import { useStyles } from '../Login/loginStyles';
-// requests
-import handleRegister from '../../lib/requests/handleRegister';
-// hooks
-import { useFormWithValidation } from '../../hooks/useFormWithValidation';
 // components
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
+// hooks
+import { useFormWithValidation } from '../../hooks/useFormWithValidation';
+// constants
+import { SIGN_IN, SIGN_UP } from '../../constants/buttons';
+// styles
+import { useStyles } from '../LoginPage/loginPageStyles';
 
-const Register: React.FC = (): JSX.Element => {
+type RegisterPageProps = {
+  register?: (email: string, password: string) => void;
+};
+
+export const RegisterPage = ({ register }: RegisterPageProps): JSX.Element => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -25,27 +29,25 @@ const Register: React.FC = (): JSX.Element => {
   const [signUpResult, setSignUpResult] = useState<boolean>(false);
   const [isInfoTooltipOpen, setisInfoTooltipOpen] = useState<boolean>(false);
 
-  const onRegister = (evt: React.FormEvent): void => {
+  const onSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
 
-    handleRegister(values.registerEmail, values.registerPassword)
-      .then((res) => {
-        console.log(res);
-        setSignUpResult(true);
-        setisInfoTooltipOpen(true);
-
-        resetForm();
-      })
-      .catch((err) => {
-        setSignUpResult(false);
-        setisInfoTooltipOpen(true);
-        console.error(err);
-      });
+    try {
+      register?.(values.registerEmail, values.registerPassword);
+      setSignUpResult(true);
+      setisInfoTooltipOpen(true);
+      resetForm();
+    } catch (err) {
+      // TODO: complete error register
+      console.log({ err });
+      setSignUpResult(false);
+    }
   };
 
   const closeInfoTooltipModal = (): void => {
     setisInfoTooltipOpen(false);
-    history.push('/sign-in');
+
+    if (signUpResult) history.push('/sign-in');
   };
 
   return (
@@ -53,7 +55,7 @@ const Register: React.FC = (): JSX.Element => {
       <div className={classes.login}>
         <div className='login__containter'>
           <h1 className={classes.login__title}>Регистрация</h1>
-          <form onSubmit={onRegister} className={classes.login__form}>
+          <form onSubmit={onSubmit} className={classes.login__form}>
             <input
               id='email'
               name='registerEmail'
@@ -75,7 +77,7 @@ const Register: React.FC = (): JSX.Element => {
             />
 
             <button type='submit' className={classes.login__button}>
-              Зарегистрироваться
+              {SIGN_UP}
             </button>
           </form>
         </div>
@@ -84,7 +86,7 @@ const Register: React.FC = (): JSX.Element => {
           <div className={classes['login__button-caption']}>
             <span>Уже зарегистрированы?</span>
             <Link to='/sign-in' className={classes.login__link}>
-              Войти
+              {SIGN_IN}
             </Link>
           </div>
         </div>
@@ -94,5 +96,3 @@ const Register: React.FC = (): JSX.Element => {
     </>
   );
 };
-
-export default Register;

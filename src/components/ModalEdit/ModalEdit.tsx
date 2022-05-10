@@ -1,22 +1,24 @@
-import React, { useEffect, useContext } from 'react';
-import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
+import React, { useEffect } from 'react';
 // components
 import { ModalWithForm } from '../ModalWithForm/ModalWithForm';
 // hooks
 import { useFormWithValidation } from '../../hooks/useFormWithValidation';
-// contexts
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+// types
+import { User } from '../../types/UserTypes';
+// constants
 import { SAVE_BUTTON_TEXT } from '../../utils/constants';
+// styles
+import { useStyles } from '../ModalWithForm/modalWithFormChildrenStyles';
 
-interface ModalEditProps {
+type ModalEditProps = {
+  user?: User;
   isOpen: boolean;
   onClose: () => void;
-  onUpdateUser: (name: string, about: string) => void;
-}
+  updateUser?: (profileName: string, profileAbout: string) => void;
+};
 
-export const ModalEdit = ({ isOpen, onClose, onUpdateUser }: ModalEditProps): JSX.Element => {
+export const ModalEdit = ({ user, isOpen, onClose, updateUser }: ModalEditProps): JSX.Element => {
   const classes = useStyles();
-  const currentUser = useContext(CurrentUserContext);
 
   const { values, setValues, errors, isFormValid, handleChange, resetForm } = useFormWithValidation();
 
@@ -25,7 +27,7 @@ export const ModalEdit = ({ isOpen, onClose, onUpdateUser }: ModalEditProps): JS
 
     const { profileName, profileAbout } = values;
 
-    onUpdateUser(profileName, profileAbout);
+    updateUser?.(profileName, profileAbout);
   };
 
   useEffect(() => {
@@ -34,10 +36,10 @@ export const ModalEdit = ({ isOpen, onClose, onUpdateUser }: ModalEditProps): JS
 
   useEffect(() => {
     setValues({
-      profileName: currentUser.name,
-      profileAbout: currentUser.about,
+      profileName: user?.name || '',
+      profileAbout: user?.about || '',
     });
-  }, [currentUser, isOpen]);
+  }, [user, isOpen]);
 
   return (
     <ModalWithForm
