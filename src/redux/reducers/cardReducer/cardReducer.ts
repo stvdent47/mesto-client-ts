@@ -6,7 +6,7 @@ const initialState: CardState = {
   error: null,
 };
 
-export const cardReducer = (state: CardState = initialState, action: CardAction) => {
+export const cardReducer = (state: CardState = initialState, action: CardAction): CardState => {
   switch (action.type) {
     case CardActionTypes.SET_CARDS:
       return { ...state, cards: action.payload };

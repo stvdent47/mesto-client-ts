@@ -8,7 +8,7 @@ const initialState: UserState = {
   error: null,
 };
 
-export const userReducer = (state: UserState = initialState, action: UserAction) => {
+export const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
   switch (action.type) {
     case UserActionTypes.SET_CURRENT_USER:
       return { ...state, user: action.payload };
